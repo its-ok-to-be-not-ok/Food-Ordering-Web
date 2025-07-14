@@ -16,7 +16,7 @@ Backend: Django, Python.
 Database: PostgreSQL.
 
 # ⚙️ Usecases: 
-- Người dùng:
+- 👤 Người dùng:
   - Đăng nhập/Đăng ký tài khoản
   - Tìm kiếm nhà hàng theo nhu cầu, chọn nhà hàng và duyệt thực đơn
   - Chọn món và đặt hàng/huỷ bỏ đặt hàng
@@ -26,12 +26,12 @@ Database: PostgreSQL.
   - Theo dõi lịch sử đặt hàng, lịch sử đánh giá và review
   - Quản lý thông tin cá nhân
   - Đăng ký làm chủ quán
-- Chủ quán:
+- 👨‍💼 Chủ quán:
   - Đăng ký mở nhà hàng, quán ăn
   - Quản lý thông tin nhà hàng, quán ăn
   - Quản lý thực đơn nhà hàng bao gồm giá tiền, giảm giá, vv...
   - Quản lý đơn đặt hàng từ khách
   - Xem báo cáo kinh doanh
-- Admin:
+- 👑 Admin:
   - Quản lý người dùng
   - Quản lý đăng ký, tính hợp lệ của chủ quán, nhà hàng
