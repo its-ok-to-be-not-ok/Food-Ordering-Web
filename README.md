@@ -35,3 +35,6 @@ Database: PostgreSQL.
 - 👑 Admin:
   - Quản lý người dùng
   - Quản lý đăng ký, tính hợp lệ của chủ quán, nhà hàng
+
+# 📅 Database:
+<img width="1888" height="1588" alt="Untitled" src="https://github.com/user-attachments/assets/2ffbc015-8cb5-47d5-bc5c-e265d83a2142" />
