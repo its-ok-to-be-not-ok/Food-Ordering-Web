@@ -1,0 +1,19 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Django
+db.sqlite3
+*.log
+
+# Node/Next.js
+node_modules/
+.next/
+.env
+.env.local
+
+# VSCode
+.vscode/
