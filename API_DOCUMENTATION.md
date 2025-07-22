@@ -256,22 +256,4 @@ curl -X POST http://localhost:8000/api/orders/create/ \
   }'
 ```
 
-## 🔧 Development Notes
 
-- Use JWT tokens for authentication
-- All protected endpoints require `Authorization: Bearer <token>` header
-- Users can have roles: `customer`, `restaurant_owner`, `admin`
-- Restaurant owners can only manage their own restaurants
-- Customers can create orders and reviews
-- Admin can access all data
-
-## 📊 Database Schema
-
-The system includes the following main models:
-- **User**: Authentication and user management
-- **Restaurant**: Restaurant information
-- **Menu & MenuItem**: Restaurant menus and dishes
-- **Order & OrderItem**: Order management
-- **Review**: Customer reviews
-- **Payment & Delivery**: Payment and delivery tracking
-- **Statistics**: Restaurant and menu item statistics

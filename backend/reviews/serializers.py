@@ -27,7 +27,7 @@ class ReviewCreateSerializer(serializers.ModelSerializer):
         return value
 
     def validate(self, data):
-        # Must review either restaurant or menu item, not both
+        
         if not data.get('restaurant_id') and not data.get('menu_item_id'):
             raise serializers.ValidationError("Phải chọn nhà hàng hoặc món ăn để đánh giá")
         
@@ -52,4 +52,4 @@ class ReviewCreateSerializer(serializers.ModelSerializer):
             review_data['menu_item_id'] = menu_item_id
             
         return Review.objects.create(**review_data)
-        )
+    
