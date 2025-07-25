@@ -1,0 +1,82 @@
+.homepage-container {
+  padding: 24px;
+  font-family: Arial, sans-serif;
+}
+
+.homepage-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.homepage-title {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.profile-link {
+  color: #007bff;
+  text-decoration: underline;
+  font-size: 14px;
+}
+
+.search-section {
+  margin-bottom: 24px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.featured-section,
+.order-history-section {
+  margin-bottom: 32px;
+}
+
+.section-title {
+  font-size: 18px;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.restaurant-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.order-list {
+  list-style: disc;
+  padding-left: 20px;
+}
+
+.order-item {
+  margin-bottom: 8px;
+}
+.container {
+  width: 100%;
+    background-image: url("../../public/images/banner.png");
+    height:463px ;
+    margin-top: 40px;
+    display: flex;
+    padding: 0px 130px;
+    position: relative;
+}
+.container .banner{
+  width: 50%;
+}
+.container .banner h2{
+  font-size: 48px;
+  margin-top: 75px;
+  color: #fff;
+}
+
+.container .banner p{
+  font-size: 25px;
+  margin-top: 90px;
+  color: #fff;
+}
