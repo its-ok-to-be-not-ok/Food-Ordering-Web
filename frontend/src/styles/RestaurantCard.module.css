@@ -1,0 +1,50 @@
+.card {
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 20px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  margin-bottom: 20px;
+  max-width: 420px;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.name {
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+.rating {
+  background: #fbbf24;
+  color: #fff;
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-weight: 500;
+}
+.categories {
+  margin: 10px 0;
+}
+.categoryBadge {
+  display: inline-block;
+  background: #e0e7ff;
+  color: #3730a3;
+  padding: 3px 10px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  margin-right: 6px;
+  margin-bottom: 4px;
+}
+.description {
+  margin: 10px 0;
+  color: #374151;
+}
+.info {
+  font-size: 0.98rem;
+  color: #4b5563;
+}
+.label {
+  font-weight: 500;
+  color: #111827;
+}

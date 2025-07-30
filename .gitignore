@@ -17,3 +17,7 @@ node_modules/
 
 # VSCode
 .vscode/
+
+# Ignore migrations except for __init__.py
+*/migrations/*
+!*/migrations/__init__.py
