@@ -40,6 +40,13 @@ export const updateUserProfile = (data: Partial<User>) =>
   axiosInstance.put("/users/profile/", data);
 
 // Restaurant APIs
+export const getUserRestaurants = (userId: string, accessToken: string) =>
+  axios.get(`${BASE_URL}/restaurants/user/${userId}/restaurants/`, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+  
 export const getAllRestaurants = () => axios.get(`${BASE_URL}/restaurants/`);
 export const getRestaurantDetails = (id: string) =>
   axios.get(`${BASE_URL}/restaurants/${id}/`);

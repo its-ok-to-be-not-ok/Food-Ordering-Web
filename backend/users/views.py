@@ -4,7 +4,8 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import authenticate
 from .models import User, Admin, RestaurantRegistration
-from .serializers import UserSerializer, RegisterSerializer, AdminSerializer, RestaurantRegistrationSerializer
+from .serializers import (UserSerializer, RegisterSerializer, AdminSerializer, 
+                          RestaurantRegistrationSerializer)
 
 class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
@@ -68,3 +69,4 @@ class RestaurantRegistrationListView(generics.ListAPIView):
         if self.request.user.role == 'admin':
             return RestaurantRegistration.objects.all()
         return RestaurantRegistration.objects.filter(user=self.request.user)
+

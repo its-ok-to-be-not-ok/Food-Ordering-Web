@@ -74,3 +74,9 @@ class SearchRestaurantsView(APIView):
         )
         serializer = RestaurantSerializer(restaurants, many=True)
         return Response(serializer.data)
+
+class UserRestaurantListView(APIView):
+    def get(self, request, user_id):
+        restaurants = Restaurant.objects.filter(owner__id=user_id)
+        serializer = RestaurantSerializer(restaurants, many=True, context={"request": request})
+        return Response(serializer.data, status=status.HTTP_200_OK)

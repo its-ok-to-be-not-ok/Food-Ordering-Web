@@ -21,7 +21,7 @@ class RestaurantSerializer(serializers.ModelSerializer):
     class Meta:
         model = Restaurant
         fields = ['id', 'owner', 'name', 'address', 'phone', 'email', 'description', 
-                 'status', 'rating', 'registered_date', 'menus']
+                 'status', 'rating', 'categories', 'registered_date', 'menus']
         read_only_fields = ['id', 'rating', 'registered_date']
 
 class RestaurantCreateSerializer(serializers.ModelSerializer):

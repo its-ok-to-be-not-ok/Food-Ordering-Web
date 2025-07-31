@@ -1,14 +1,17 @@
 import { useState } from "react";
-import { login } from "@/services/service";
+import { login as loginService } from "@/services/service";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import styles from "./LoginForm.module.css";
+import { useDispatch } from "react-redux";
+import { login, logout } from "@/store/slices/authSlice";
 
 export default function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -21,7 +24,9 @@ export default function LoginForm() {
     setError("");
 
     try {
-      await login(email, password);
+      const res = await loginService(email, password);
+      dispatch(login(res));
+    
       router.push("/");
     } catch (err) {
       setError("Đăng nhập thất bại!");
@@ -63,5 +68,5 @@ export default function LoginForm() {
         {error && <p className={styles.error}>{error}</p>}
       </form>
     </div>
-  );
+  );  
 }

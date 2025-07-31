@@ -2,7 +2,7 @@ from django.urls import path
 from .views import (
     RestaurantListView, RestaurantDetailView, RestaurantMenuView,
     MenuItemListView, MenuItemDetailView, RestaurantStatsView,
-    PopularRestaurantsView, SearchRestaurantsView
+    PopularRestaurantsView, SearchRestaurantsView, UserRestaurantListView
 )
 
 urlpatterns = [
@@ -14,4 +14,5 @@ urlpatterns = [
     path('<int:restaurant_id>/stats/', RestaurantStatsView.as_view(), name='restaurant-stats'),
     path('popular/', PopularRestaurantsView.as_view(), name='popular-restaurants'),
     path('search/', SearchRestaurantsView.as_view(), name='search-restaurants'),
+    path('user/<int:user_id>/restaurants/', UserRestaurantListView.as_view(), name='user-restaurants'),
 ]

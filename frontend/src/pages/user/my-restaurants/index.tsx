@@ -2,42 +2,33 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Restaurant } from "@/types/restaurant";
 import RestaurantCard from "@/components/restaurants/RestaurantCard";
-
-// Mock data cho các quán ăn đã đăng ký
-const mockRestaurants: Restaurant[] = [
-  {
-    id: "1",
-    name: "Nhà hàng Hải Sản Biển Đông",
-    address: "123 Đường Biển, Quận 7, TP.HCM",
-    phone: "0909 123 456",
-    description: "Chuyên các món hải sản tươi sống, không gian rộng rãi, phục vụ chuyên nghiệp.",
-    rating: 4.7,
-    categories: ["Hải sản", "Lẩu", "Nướng"],
-    active: true,
-  },
-  {
-    id: "2",
-    name: "Bún Bò Huế O Loan",
-    address: "45 Nguyễn Trãi, Quận 5, TP.HCM",
-    phone: "0988 654 321",
-    description: "Bún bò chuẩn vị Huế, nước dùng đậm đà, phục vụ nhanh chóng.",
-    rating: 4.3,
-    categories: ["Bún", "Món Huế"],
-    active: true,
-  },
-];
+import { getUserRestaurants } from "@/services/service";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
 
 export default function MyRestaurantsPage() {
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const userId = useSelector((state: RootState) => state.auth.user?.id);
+  
+  const accessToken = useSelector((state: RootState) => state.auth.access);
+
   useEffect(() => {
-    // Giả lập gọi API lấy danh sách quán ăn
-    setTimeout(() => {
-      setRestaurants(mockRestaurants);
+    if (!userId || !accessToken) {
+      setRestaurants([]);
       setLoading(false);
-    }, 800);
-  }, []);
+      return;
+    }
+    getUserRestaurants(userId, accessToken)
+      .then((res) => {
+        setRestaurants(Array.isArray(res.data) ? res.data : res.data.results || []);
+      })
+      .catch(() => {
+        setRestaurants([]);
+      })
+      .finally(() => setLoading(false));
+  }, [userId, accessToken]);
 
   return (
     <main style={{ maxWidth: 900, margin: "0 auto", padding: 24 }}>

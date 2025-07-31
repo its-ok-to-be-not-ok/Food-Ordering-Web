@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { getPopularRestaurants, getOrderHistory, getUserProfile } from '@/services/service';
-import RestaurantCard from '@/components/restaurants/RestaurantCart';
+import RestaurantCard from '@/components/restaurants/RestaurantCard';
 import '@/styles/HomePages.module.css';
 import { Order } from '@/types/order';
 import { Restaurant } from '@/types/restaurant';

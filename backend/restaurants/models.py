@@ -1,6 +1,25 @@
 from django.db import models
 from users.models import User
 
+CATEGORY_CHOICES = [
+    ('com', 'Cơm'),
+    ('lau', 'Lẩu'),
+    ('bun', 'Bún'),
+    ('pho', 'Phở'),
+    ('mi', 'Mì'),
+    ('chien_ran', 'Chiên rán'),
+    ('nuong', 'Nướng'),
+    ('hai_san', 'Hải sản'),
+    ('an_vat', 'Ăn vặt'),
+    ('do_uong', 'Đồ uống'),
+    ('chay', 'Chay'),
+    ('han_quoc', 'Hàn Quốc'),
+    ('nhat_ban', 'Nhật Bản'),
+    ('tay', 'Món Tây'),
+    ('khac', 'Khác'),
+]
+
+
 class Restaurant(models.Model):
     STATUS_CHOICES = [
         ('active', 'Hoạt động'),
@@ -17,6 +36,7 @@ class Restaurant(models.Model):
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='active')
     rating = models.FloatField(default=0.0)
     registered_date = models.DateTimeField(auto_now_add=True)
+    categories = models.JSONField(default=list)  
 
     def __str__(self):
         return self.name
