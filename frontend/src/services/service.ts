@@ -39,6 +39,17 @@ export const getUserProfile = () => axiosInstance.get("/users/profile/");
 export const updateUserProfile = (data: Partial<User>) =>
   axiosInstance.put("/users/profile/", data);
 
+export const getUserRegistrations = (accessToken: string, status?: string) =>
+  axios.get(`${BASE_URL}/users/registrations/`, {
+    headers: { Authorization: `Bearer ${accessToken}` },
+    params: status ? { status } : {},
+  });
+
+export const withdrawRegistration = (accessToken: string, id: number) =>
+  axios.delete(`${BASE_URL}/users/registrations/${id}/`, {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
+
 // Restaurant APIs
 export const getUserRestaurants = (userId: string, accessToken: string) =>
   axios.get(`${BASE_URL}/restaurants/user/${userId}/restaurants/`, {

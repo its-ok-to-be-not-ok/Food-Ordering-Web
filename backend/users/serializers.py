@@ -30,9 +30,13 @@ class AdminSerializer(serializers.ModelSerializer):
         fields = ['id', 'user', 'permissions']
 
 class RestaurantRegistrationSerializer(serializers.ModelSerializer):
-    user = UserSerializer(read_only=True)
-    
+    # Import động để tránh circular import
+    def get_restaurant(self, obj):
+        from restaurants.serializers import RestaurantSerializer
+        return RestaurantSerializer(obj.restaurant).data if obj.restaurant else None
+
+    restaurant = serializers.SerializerMethodField("get_restaurant")
+
     class Meta:
         model = RestaurantRegistration
-        fields = ['id', 'user', 'restaurant_info', 'status', 'registration_date', 'admin_note']
-        read_only_fields = ['id', 'user', 'registration_date']
+        fields = ["id", "user", "restaurant", "status", "registration_date", "admin_note"]
