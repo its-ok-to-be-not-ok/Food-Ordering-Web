@@ -64,7 +64,7 @@ export default function MyRestaurantsPage() {
                       Quản lý thông tin
                     </Link>
                     <Link
-                      href={`/owner/restaurants/${res.id}/menu`}
+                      href={`/user/my-restaurants/${res.id}/menu`}
                       style={{
                         padding: "6px 14px",
                         background: "#22c55e",

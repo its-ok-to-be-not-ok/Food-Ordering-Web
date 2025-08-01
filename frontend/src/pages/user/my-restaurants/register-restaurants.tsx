@@ -62,7 +62,7 @@ export default function RegisterRestaurantsPage() {
           </button>
         ))}
         <div style={{ flex: 1 }} />
-        <Link href="/restaurant/register">
+        <Link href="/user/my-restaurants/create-restaurants">
           <button className={styles.registerBtn}>+ Đăng ký nhà hàng</button>
         </Link>
       </div>

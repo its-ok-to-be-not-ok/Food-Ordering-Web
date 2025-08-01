@@ -19,6 +19,15 @@
   margin-bottom: 24px;
 }
 
+.input {
+  padding: 8px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 1rem;
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+
 .filterBtn {
   border: 1px solid #ccc;
   background: #fff;
