@@ -11,11 +11,14 @@ export default function RestaurantCard({ restaurant }: { restaurant: Restaurant 
         <span className={styles.rating}>⭐ {restaurant.rating.toFixed(1)}</span>
       </div>
       <div className={styles.categories}>
-        {restaurant.categories.map((cat) => (
-          <span key={cat} className={styles.categoryBadge}>
-            {cat}
-          </span>
-        ))}
+        console.log("Restaurant categories:", restaurant.categories);
+        {restaurant.categories
+          ?.filter((cat) => cat && cat.id && cat.name)
+          .map((cat) => (
+            <span key={cat.id} className={styles.categoryBadge}>
+              {cat.name}
+            </span>
+          ))}
       </div>
       <p className={styles.description}>{restaurant.description}</p>
       <div className={styles.info}>

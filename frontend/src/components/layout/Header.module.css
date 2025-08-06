@@ -35,3 +35,40 @@
 .nav a:hover {
   background-color: #005bb5;
 }
+.userMenu {
+  position: relative;
+  cursor: pointer;
+}
+
+.userIcon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+
+.dropdown {
+  position: absolute;
+  top: 40px;
+  right: 0;
+  background-color: white;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  z-index: 10;
+  min-width: 200px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.dropdown p {
+  margin: 4px 0;
+}
+
+.dropdown button {
+  margin-top: 8px;
+  background-color: #e74c3c;
+  color: white;
+  padding: 6px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}

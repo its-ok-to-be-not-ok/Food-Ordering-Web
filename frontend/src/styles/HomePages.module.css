@@ -1,3 +1,9 @@
+body, html {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; 
+}
+
 .homepage-container {
   padding: 24px;
   font-family: Arial, sans-serif;
@@ -57,26 +63,52 @@
 .order-item {
   margin-bottom: 8px;
 }
-.container {
+/* Banner chính */
+.banner {
   width: 100%;
-    background-image: url("../../public/images/banner.png");
-    height:463px ;
-    margin-top: 40px;
-    display: flex;
-    padding: 0px 130px;
-    position: relative;
-}
-.container .banner{
-  width: 50%;
-}
-.container .banner h2{
-  font-size: 48px;
-  margin-top: 75px;
+  height: 460px;
+  margin-top: 40px;
+  background-image: url("/images/banner.png");
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center; /* Căn giữa ngang */
+  align-items: center;     /* Căn giữa dọc */
+  text-align: center;      /* Căn chữ giữa */
+  padding: 0 20px;         /* Tránh bị tràn ngang trên thiết bị nhỏ */
   color: #fff;
+  position: relative;
+  box-sizing: border-box;  /* Giữ padding nằm trong width */
+  overflow: hidden;
 }
 
-.container .banner p{
-  font-size: 25px;
-  margin-top: 90px;
-  color: #fff;
+.banner h2 {
+  font-size: 48px;
+  margin: 0;
+  line-height: 1.3;
+  font-weight: bold;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+.banner p {
+  font-size: 20px;
+  margin-top: 16px;
+  max-width: 600px;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+/* Đặt cả h2 và p trong 1 thẻ div để quản lý layout */
+.banner-content {
+  max-width: 800px;
+}
+
+/* Responsive (trên thiết bị nhỏ) */
+@media (max-width: 768px) {
+  .banner h2 {
+    font-size: 32px;
+  }
+
+  .banner p {
+    font-size: 16px;
+  }
 }

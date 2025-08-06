@@ -1,21 +1,20 @@
 import { useState } from "react";
-import { login as loginService } from "@/services/service";
+import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import styles from "./LoginForm.module.css";
-import { useDispatch } from "react-redux";
-import { login, logout } from "@/store/slices/authSlice";
+import { login as loginAction } from "@/store/slices/authSlice"; // action Redux
+import { login as loginService } from "@/services/service"; // hàm gọi API
 
-export default function LoginForm() {
+const LoginForm = () => {
+  const dispatch = useDispatch();
+  const router = useRouter();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const router = useRouter();
-  const dispatch = useDispatch();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
+  const handleLogin = async () => {
     if (!email || !password) {
       setError("Vui lòng nhập đầy đủ email và mật khẩu.");
       return;
@@ -24,13 +23,19 @@ export default function LoginForm() {
     setError("");
 
     try {
-      const res = await loginService(email, password);
-      dispatch(login(res));
-    
-      router.push("/");
+      const res = await loginService(email, password); // Gọi API
+      dispatch(loginAction(res));                      // Lưu Redux
+      localStorage.setItem("user", JSON.stringify(res)); // Lưu localStorage
+      router.push("/");                                 // Về trang chủ
     } catch (err) {
+      console.error(err);
       setError("Đăng nhập thất bại!");
     }
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    handleLogin();
   };
 
   return (
@@ -68,5 +73,7 @@ export default function LoginForm() {
         {error && <p className={styles.error}>{error}</p>}
       </form>
     </div>
-  );  
-}
+  );
+};
+
+export default LoginForm;
