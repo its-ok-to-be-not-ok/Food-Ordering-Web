@@ -4,8 +4,10 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import authenticate
 from .models import User, Admin, RestaurantRegistration
-from .serializers import (UserSerializer, RegisterSerializer, AdminSerializer, 
-                          RestaurantRegistrationSerializer)
+from .serializers import (
+    UserSerializer, RegisterSerializer, AdminSerializer,
+    RestaurantRegistrationSerializer
+)
 
 class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
@@ -16,9 +18,7 @@ class RegisterView(generics.CreateAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
-        
         refresh = RefreshToken.for_user(user)
-        
         return Response({
             'user': UserSerializer(user).data,
             'refresh': str(refresh),
@@ -31,7 +31,6 @@ class LoginView(APIView):
     def post(self, request):
         email = request.data.get('email')
         password = request.data.get('password')
-        
         if email and password:
             user = authenticate(username=email, password=password)
             if user:
@@ -61,12 +60,23 @@ class RestaurantRegistrationView(generics.CreateAPIView):
         serializer.save(user=self.request.user)
 
 class RestaurantRegistrationListView(generics.ListAPIView):
-    queryset = RestaurantRegistration.objects.all()
     serializer_class = RestaurantRegistrationSerializer
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        if self.request.user.role == 'admin':
-            return RestaurantRegistration.objects.all()
-        return RestaurantRegistration.objects.filter(user=self.request.user)
+        qs = RestaurantRegistration.objects.all()
+        if self.request.user.role != 'admin':
+            qs = qs.filter(user=self.request.user)
+        status_param = self.request.query_params.get("status")
+        if status_param:
+            qs = qs.filter(status=status_param)
+        return qs.order_by("-registration_date")
 
+class RestaurantRegistrationDetailView(generics.RetrieveDestroyAPIView):
+    serializer_class = RestaurantRegistrationSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        qs = RestaurantRegistration.objects.all()
+        if self.request.user.role != 'admin':
+            qs = qs.filter(user=self.request.user)

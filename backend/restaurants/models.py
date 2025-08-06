@@ -1,5 +1,5 @@
 from django.db import models
-from users.models import User
+
 
 CATEGORY_CHOICES = [
     ('com', 'Cơm'),
@@ -27,7 +27,7 @@ class Restaurant(models.Model):
         ('suspended', 'Tạm ngưng'),
     ]
     
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='restaurants')
+    owner = models.ForeignKey("users.User", on_delete=models.CASCADE, related_name='restaurants')
     name = models.CharField(max_length=100)
     address = models.CharField(max_length=255)
     phone = models.CharField(max_length=20)

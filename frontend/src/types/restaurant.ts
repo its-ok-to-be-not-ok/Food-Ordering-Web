@@ -21,3 +21,13 @@ export interface Restaurant {
   active?: boolean;
   imageUrl?: string;
 }
+
+export interface RestaurantCreate {
+  name: string;
+  address: string;
+  phone: string;
+  email: string;
+  description?: string;
+  categories: string[];
+  images?: File[];
+}

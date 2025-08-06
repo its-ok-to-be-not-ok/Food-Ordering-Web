@@ -1,5 +1,8 @@
 import axios from "axios";
 import { User, AuthResponse } from "@/types/user";
+import { RestaurantCreate } from "@/types/restaurant";
+import { Menu } from "@/types/menu";
+
 
 const BASE_URL = "http://localhost:8000/api";
 
@@ -39,6 +42,7 @@ export const getUserProfile = () => axiosInstance.get("/users/profile/");
 export const updateUserProfile = (data: Partial<User>) =>
   axiosInstance.put("/users/profile/", data);
 
+<<<<<<< HEAD
 // ---------- Restaurant APIs ----------
 export const getUserRestaurants = (userId: string) =>
   axiosInstance.get(`/restaurants/user/${userId}/`);
@@ -54,6 +58,53 @@ export const createRestaurant = (data: any) =>
 
 export const getRestaurantMenus = (restaurantId: string) =>
   axiosInstance.get(`/restaurants/${restaurantId}/menus/`);
+=======
+export const getUserRegistrations = (accessToken: string, status?: string) =>
+  axios.get(`${BASE_URL}/users/registrations/`, {
+    headers: { Authorization: `Bearer ${accessToken}` },
+    params: status ? { status } : {},
+  });
+
+export const withdrawRegistration = (accessToken: string, id: number) =>
+  axios.delete(`${BASE_URL}/users/registrations/${id}/`, {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
+
+// Restaurant APIs
+export const getUserRestaurants = (userId: string, accessToken: string) =>
+  axios.get(`${BASE_URL}/restaurants/user/${userId}/restaurants/`, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
+export const createRestaurant = (accessToken: string, data: RestaurantCreate) => {
+  const formData = new FormData();
+  Object.entries(data).forEach(([key, value]) => {
+    if (key === "images" && Array.isArray(value)) {
+      value.forEach((file) => formData.append("images", file));
+    } else if (key === "categories" && Array.isArray(value)) {
+      formData.append("categories", JSON.stringify(value));
+    } else if (value !== undefined) {
+      formData.append(key, value as string);
+    }
+  });
+  return axios.post(`${BASE_URL}/restaurants/create/`, formData, {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
+};
+
+
+export const getRestaurantMenus = (restaurantId: string, accessToken?: string) =>
+  axios.get<Menu[]>(`${BASE_URL}/restaurants/${restaurantId}/menus/`, {
+    headers: accessToken ? { Authorization: `Bearer ${accessToken}` } : {},
+  });
+  
+export const getAllRestaurants = () => axios.get(`${BASE_URL}/restaurants/`);
+
+export const getRestaurantDetails = (id: string) =>
+  axios.get(`${BASE_URL}/restaurants/${id}/`);
+>>>>>>> 2725845c2be318bf4ceaa0dfb42fca2314e3efee
 
 export const searchRestaurants = (query: string) =>
   axiosInstance.get("/restaurants/search/", { params: { q: query } });
@@ -74,8 +125,84 @@ export const getMenuItems = async (menuId: string): Promise<MenuItem[]> => {
   return response.data?.items || response.data || [];
 };
 
+<<<<<<< HEAD
 export const getMenuItemDetails = (id: string) =>
   axiosInstance.get(`/menu-items/${id}/`);
+=======
+// MENU APIs
+export const createMenu = (
+  restaurantId: string,
+  data: { title: string; description?: string },
+  accessToken: string
+) =>
+  axios.post(
+    `${BASE_URL}/restaurants/${restaurantId}/menus/`,
+    data,
+    { headers: { Authorization: `Bearer ${accessToken}` } }
+  );
+
+export const updateMenu = (
+  menuId: string,
+  data: { title?: string; description?: string },
+  accessToken: string
+) =>
+  axios.put(
+    `${BASE_URL}/restaurants/menus/${menuId}/`,
+    data,
+    { headers: { Authorization: `Bearer ${accessToken}` } }
+  );
+
+export const deleteMenu = (menuId: string, accessToken: string) =>
+  axios.delete(
+    `${BASE_URL}/restaurants/menus/${menuId}/`,
+    { headers: { Authorization: `Bearer ${accessToken}` } }
+  );
+
+// MENU ITEM APIs
+export const createMenuItem = (
+  menuId: string,
+  data: {
+    name: string;
+    description?: string;
+    price: number;
+    image?: string;
+    status?: string;
+    category?: string;
+    discount?: number;
+  },
+  accessToken: string
+) =>
+  axios.post(
+    `${BASE_URL}/restaurants/menus/${menuId}/items/`,
+    data,
+    { headers: { Authorization: `Bearer ${accessToken}` } }
+  );
+
+export const updateMenuItem = (
+  itemId: string,
+  data: {
+    name?: string;
+    description?: string;
+    price?: number;
+    image?: string;
+    status?: string;
+    category?: string;
+    discount?: number;
+  },
+  accessToken: string
+) =>
+  axios.put(
+    `${BASE_URL}/restaurants/menu-items/${itemId}/`,
+    data,
+    { headers: { Authorization: `Bearer ${accessToken}` } }
+  );
+
+export const deleteMenuItem = (itemId: string, accessToken: string) =>
+  axios.delete(
+    `${BASE_URL}/restaurants/menu-items/${itemId}/`,
+    { headers: { Authorization: `Bearer ${accessToken}` } }
+  );
+>>>>>>> 2725845c2be318bf4ceaa0dfb42fca2314e3efee
 
 export const getAllMenuItems = async (): Promise<MenuItem[]> => {
   try {
