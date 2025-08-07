@@ -1,74 +1,58 @@
 .header {
-  background-color: #fff;
-  padding: 16px 32px;
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  position: sticky;
-  top: 0;
-  z-index: 1000;
+  padding: 12px 24px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.logo {
-  font-size: 20px;
+.logo a {
+  font-size: 24px;
   font-weight: bold;
-  color: #0070f3;
+  color: #3510f0e3;
+  text-decoration: none;
 }
 
-.nav {
+.searchWrapper {
+  flex: 1;
+  margin: 0 24px;
   display: flex;
-  gap: 20px; 
-  justify-content: flex-end;
+  justify-content: center;
+}
+
+.userSection {
+  display: flex;
   align-items: center;
 }
-.nav a {
-  padding: 10px 20px;
-  text-decoration: none;
-  background-color: #e0e5eb;
-  color: black;
-  border-radius: 8px;
-  font-weight: 500;
-  transition: background-color 0.3s ease;
-}
 
-.nav a:hover {
-  background-color: #005bb5;
-}
-.userMenu {
-  position: relative;
-  cursor: pointer;
+.authLinks a {
+  margin-left: 12px;
+  text-decoration: none;
+  color: #333;
 }
 
 .userIcon {
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
   border-radius: 50%;
+  border: 1px solid #ccc;
 }
 
 .dropdown {
   position: absolute;
-  top: 40px;
-  right: 0;
-  background-color: white;
+  top: 70px;
+  right: 24px;
+  background-color: #fff;
   padding: 12px;
-  border: 1px solid #ccc;
+  border: 1px solid #ddd;
   border-radius: 8px;
-  z-index: 10;
-  min-width: 200px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  z-index: 100;
 }
-
-.dropdown p {
-  margin: 4px 0;
-}
-
-.dropdown button {
-  margin-top: 8px;
-  background-color: #e74c3c;
-  color: white;
-  padding: 6px 10px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
+.dropdown .button{
+  background-color: #3510f0e3;
+  color: #fff;
+  border-radius: 2px;
 }

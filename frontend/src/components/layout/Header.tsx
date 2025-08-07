@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import styles from "./Header.module.css";
+import SearchBar from "@/components/search/SearchBar";
 
 export default function Header() {
   const [user, setUser] = useState<any>(null);
@@ -29,34 +30,39 @@ export default function Header() {
 
   return (
     <header className={styles.header}>
-      <div className={styles.logo}>FastFood</div>
-      <nav className={styles.nav}>
-        <Link href="/">Trang chủ</Link>
+      <div className={styles.logo}>
+        <Link href="/">FastFood</Link>
+      </div>
 
+      <div className={styles.searchWrapper}>
+        <SearchBar />
+      </div>
+
+      <div className={styles.userSection}>
         {!user ? (
-          <>
+          <nav className={styles.authLinks}>
             <Link href="/login">Đăng nhập</Link>
             <Link href="/register">Đăng ký</Link>
-          </>
+          </nav>
         ) : (
           <div className={styles.userMenu}>
             <img
               src="/images/user.png"
               alt="User"
               className={styles.userIcon}
-              onClick={toggleDropdown} // khi click icon thì hiện menu
+              onClick={toggleDropdown}
             />
             {showDropdown && (
               <div className={styles.dropdown}>
                 <p><strong>{user.username}</strong></p>
                 <p>{user.email}</p>
                 <p>Vai trò: {user.role}</p>
-                <button onClick={handleLogout}>Đăng xuất</button>
+                <button className={styles.button} onClick={handleLogout}>Đăng xuất</button>
               </div>
             )}
           </div>
         )}
-      </nav>
+      </div>
     </header>
   );
 }
