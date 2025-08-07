@@ -1,4 +1,7 @@
+"use client";
+
 import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import Header from "@/components/layout/Header";
 import styles from "@/styles/HomePages.module.css";
 import { getAllMenuItems } from "@/services/service";
@@ -10,17 +13,25 @@ interface MenuItem {
   description?: string;
 }
 
+interface CartItem extends MenuItem {
+  quantity: number;
+}
+
 export default function HomePage() {
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
+  const [filteredItems, setFilteredItems] = useState<MenuItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [cart, setCart] = useState<CartItem[]>([]); // giỏ hàng
+  const [quantities, setQuantities] = useState<Record<number, number>>({}); // lưu số lượng cho từng món
+
+  const searchParams = useSearchParams();
+  const query = searchParams.get("query")?.toLowerCase() || "";
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const items: MenuItem[] = await getAllMenuItems();
-
-        // Kiểm tra dữ liệu hợp lệ trước khi set
+        const items = await getAllMenuItems();
         if (Array.isArray(items)) {
           setMenuItems(items);
         } else {
@@ -38,6 +49,38 @@ export default function HomePage() {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    const filtered = menuItems.filter((item) => {
+      const nameMatch = item.name.toLowerCase().includes(query);
+      const descMatch = item.description?.toLowerCase().includes(query);
+      return nameMatch || descMatch;
+    });
+    setFilteredItems(filtered);
+  }, [query, menuItems]);
+
+  const handleQuantityChange = (id: number, value: number) => {
+    setQuantities((prev) => ({ ...prev, [id]: value }));
+  };
+
+  const handleAddToCart = (item: MenuItem) => {
+    const quantity = quantities[item.id] || 1;
+    const existing = cart.find((cartItem) => cartItem.id === item.id);
+
+    if (existing) {
+      setCart((prev) =>
+        prev.map((cartItem) =>
+          cartItem.id === item.id
+            ? { ...cartItem, quantity: cartItem.quantity + quantity }
+            : cartItem
+        )
+      );
+    } else {
+      setCart((prev) => [...prev, { ...item, quantity }]);
+    }
+
+    alert(`Đã thêm ${quantity} "${item.name}" vào giỏ hàng.`);
+  };
+
   return (
     <>
       <Header />
@@ -51,23 +94,34 @@ export default function HomePage() {
       </div>
 
       <div className={styles.menuSection}>
-        <h3>Danh sách món ăn</h3>
+        <h3>Danh sách món ăn {query && `(tìm: "${query}")`}</h3>
         {loading ? (
           <p>Đang tải...</p>
         ) : error ? (
           <p className={styles.errorMessage}>{error}</p>
-        ) : menuItems.length === 0 ? (
-          <p>Không có món ăn nào.</p>
+        ) : filteredItems.length === 0 ? (
+          <p>Không tìm thấy món ăn phù hợp.</p>
         ) : (
-          <ul className={styles.menuList}>
-            {menuItems.map((item) => (
-              <li key={item.id} className={styles.menuItem}>
+          <ul className={styles.menuGrid}>
+            {filteredItems.map((item) => (
+              <li key={item.id} className={styles.menuCard}>
                 <h4>{item.name}</h4>
                 <p>Giá: {item.price.toLocaleString()}₫</p>
                 {item.description && <p>{item.description}</p>}
+
+                <div className={styles.controls}>
+                  <input
+                    type="number"
+                    min="1"
+                    defaultValue="1"
+                    className={styles.quantityInput}
+                  />
+                  <button className={styles.addButton}>Thêm vào giỏ</button>
+                </div>
               </li>
             ))}
           </ul>
+
         )}
       </div>
     </>

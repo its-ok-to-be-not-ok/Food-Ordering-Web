@@ -3,7 +3,7 @@ import { User, AuthResponse } from "@/types/user";
 
 const BASE_URL = "http://localhost:8000/api";
 
-// Axios instance có gắn sẵn token
+// ------------------ Axios instance có token ------------------
 const axiosInstance = axios.create({
   baseURL: BASE_URL,
 });
@@ -16,7 +16,7 @@ axiosInstance.interceptors.request.use((config) => {
   return config;
 });
 
-// ---------- Auth APIs ----------
+// ------------------ Auth APIs ------------------
 export const register = async (
   data: Omit<User, "id"> & { password: string }
 ): Promise<AuthResponse> => {
@@ -32,12 +32,12 @@ export const login = async (
   return res.data;
 };
 
-// ---------- User APIs ----------
+// ------------------ User APIs ------------------
 export const getUserProfile = () => axiosInstance.get("/users/profile/");
 export const updateUserProfile = (data: Partial<User>) =>
   axiosInstance.put("/users/profile/", data);
 
-// ---------- Restaurant APIs ----------
+// ------------------ Restaurant APIs ------------------
 export const getUserRestaurants = (userId: string) =>
   axiosInstance.get(`/restaurants/user/${userId}/restaurants/`);
 
@@ -59,7 +59,7 @@ export const searchRestaurants = (query: string) =>
 export const getPopularRestaurants = () =>
   axios.get(`${BASE_URL}/restaurants/popular/`);
 
-// ---------- Menu Item APIs ----------
+// ------------------ Menu Item APIs ------------------
 export const getMenuItems = async (menuId: string) => {
   const response = await axios.get(`${BASE_URL}/restaurants/menus/${menuId}/items/`);
   return response.data;
@@ -68,37 +68,35 @@ export const getMenuItems = async (menuId: string) => {
 export const getMenuItemDetails = (id: string) =>
   axios.get(`${BASE_URL}/restaurants/menu-items/${id}/`);
 
+/**
+ * Lấy tất cả món ăn từ tất cả nhà hàng và tất cả menus.
+ */
 export const getAllMenuItems = async () => {
-  const allItems: any[] = [];
-
   try {
-    const resRestaurants = await getAllRestaurants();
-    const restaurants = resRestaurants.data.results || resRestaurants.data;
+    const res = await axiosInstance.get("/restaurants/");
+    const restaurants = res.data.results;
+
+    if (!Array.isArray(restaurants)) {
+      throw new Error("Dữ liệu trả về không phải danh sách nhà hàng.");
+    }
+
+    const allItems = [];
 
     for (const restaurant of restaurants) {
-      const resMenus = await getRestaurantMenus(restaurant.id);
-      const menus = resMenus.data;
-
-      for (const menu of menus) {
-        const itemsResponse = await getMenuItems(menu.id);
-        const items = Array.isArray(itemsResponse) ? itemsResponse : itemsResponse.data;
-
-        if (Array.isArray(items)) {
-          allItems.push(...items);
-        } else {
-          console.warn(`Menu ${menu.id} trả về dữ liệu không hợp lệ`, items);
+      for (const menu of restaurant.menus) {
+        if (Array.isArray(menu.items)) {
+          allItems.push(...menu.items);
         }
       }
     }
 
     return allItems;
-  } catch (err) {
-    console.error("Lỗi khi lấy tất cả món ăn:", err);
-    return [];
+  } catch (error) {
+    console.error("Lỗi khi lấy danh sách món ăn:", error);
+    throw error;
   }
 };
-
-// ---------- Order APIs ----------
+// ------------------ Order APIs ------------------
 export const createOrder = (orderData: any) =>
   axiosInstance.post("/orders/create/", orderData);
 
@@ -111,7 +109,7 @@ export const getOrderHistory = () => axiosInstance.get("/orders/history/");
 export const getRestaurantOrders = (restaurantId: string) =>
   axiosInstance.get(`/orders/restaurant/${restaurantId}/`);
 
-// ---------- Review APIs ----------
+// ------------------ Review APIs ------------------
 export const listReviews = (params: any = {}) =>
   axios.get(`${BASE_URL}/reviews/`, { params });
 
