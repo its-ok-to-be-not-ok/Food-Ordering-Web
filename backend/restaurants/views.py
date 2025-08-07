@@ -3,11 +3,11 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.shortcuts import get_object_or_404
 from .models import Restaurant, Menu, MenuItem, RestaurantStat, MenuItemStat
-
+from users.models import RestaurantRegistration
 from .serializers import (
     RestaurantSerializer, RestaurantCreateSerializer,
     MenuSerializer, MenuItemSerializer,
-    RestaurantStatSerializer, MenuItemStatSerializer
+    RestaurantStatSerializer, MenuItemStatSerializer, 
 )
 
 class RestaurantListView(generics.ListCreateAPIView):
@@ -90,6 +90,7 @@ class RestaurantStatsView(generics.ListAPIView):
         return RestaurantStat.objects.filter(restaurant_id=restaurant_id)
 
 class PopularRestaurantsView(APIView):
+    permission_classes = [permissions.AllowAny]
     def get(self, request):
         restaurants = Restaurant.objects.filter(status='active').order_by('-rating')[:10]
         serializer = RestaurantSerializer(restaurants, many=True)

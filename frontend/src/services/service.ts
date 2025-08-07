@@ -42,23 +42,6 @@ export const getUserProfile = () => axiosInstance.get("/users/profile/");
 export const updateUserProfile = (data: Partial<User>) =>
   axiosInstance.put("/users/profile/", data);
 
-<<<<<<< HEAD
-// ---------- Restaurant APIs ----------
-export const getUserRestaurants = (userId: string) =>
-  axiosInstance.get(`/restaurants/user/${userId}/`);
-
-export const getAllRestaurants = () =>
-  axiosInstance.get("/restaurants/");
-
-export const getRestaurantDetails = (id: string) =>
-  axiosInstance.get(`/restaurants/${id}/`);
-
-export const createRestaurant = (data: any) =>
-  axiosInstance.post("/restaurants/", data);
-
-export const getRestaurantMenus = (restaurantId: string) =>
-  axiosInstance.get(`/restaurants/${restaurantId}/menus/`);
-=======
 export const getUserRegistrations = (accessToken: string, status?: string) =>
   axios.get(`${BASE_URL}/users/registrations/`, {
     headers: { Authorization: `Bearer ${accessToken}` },
@@ -104,7 +87,6 @@ export const getAllRestaurants = () => axios.get(`${BASE_URL}/restaurants/`);
 
 export const getRestaurantDetails = (id: string) =>
   axios.get(`${BASE_URL}/restaurants/${id}/`);
->>>>>>> 2725845c2be318bf4ceaa0dfb42fca2314e3efee
 
 export const searchRestaurants = (query: string) =>
   axiosInstance.get("/restaurants/search/", { params: { q: query } });
@@ -125,10 +107,8 @@ export const getMenuItems = async (menuId: string): Promise<MenuItem[]> => {
   return response.data?.items || response.data || [];
 };
 
-<<<<<<< HEAD
 export const getMenuItemDetails = (id: string) =>
   axiosInstance.get(`/menu-items/${id}/`);
-=======
 // MENU APIs
 export const createMenu = (
   restaurantId: string,
@@ -202,7 +182,6 @@ export const deleteMenuItem = (itemId: string, accessToken: string) =>
     `${BASE_URL}/restaurants/menu-items/${itemId}/`,
     { headers: { Authorization: `Bearer ${accessToken}` } }
   );
->>>>>>> 2725845c2be318bf4ceaa0dfb42fca2314e3efee
 
 export const getAllMenuItems = async (): Promise<MenuItem[]> => {
   try {
@@ -223,7 +202,7 @@ export const getAllMenuItems = async (): Promise<MenuItem[]> => {
 
     const allItems: MenuItem[] = [];
     for (const resMenus of menuResponses) {
-      const menus = resMenus.data?.menus || resMenus.data || [];
+      const menus = resMenus.data || [];
       console.log("Menus for restaurant:", menus);
       if (Array.isArray(menus)) {
         const itemPromises = menus.map((menu: any) =>
