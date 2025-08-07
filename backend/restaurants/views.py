@@ -31,6 +31,26 @@ class RestaurantDetailView(generics.RetrieveUpdateDestroyAPIView):
         if self.request.method in ['PUT', 'PATCH', 'DELETE']:
             return [permissions.IsAuthenticated()]
         return [permissions.AllowAny()]
+    
+class RestaurantStatusToggleView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def patch(self, request, restaurant_id):
+        restaurant = get_object_or_404(Restaurant, id=restaurant_id, owner=request.user)
+        new_status = request.data.get("status")
+        if new_status not in ["active", "inactive"]:
+            return Response({"error": "Trạng thái không hợp lệ."}, status=status.HTTP_400_BAD_REQUEST)
+        restaurant.status = new_status
+        restaurant.save()
+        return Response({"success": True, "status": restaurant.status})
+
+class RestaurantDeleteView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def delete(self, request, restaurant_id):
+        restaurant = get_object_or_404(Restaurant, id=restaurant_id, owner=request.user)
+        restaurant.delete()
+        return Response({"success": True}, status=status.HTTP_204_NO_CONTENT)
 
 class RestaurantMenuView(APIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]

@@ -92,6 +92,51 @@ export const searchRestaurants = (query: string) =>
 export const getPopularRestaurants = () =>
   axios.get(`${BASE_URL}/restaurants/popular/`);
 
+// Đóng/mở cửa nhà hàng
+export const toggleRestaurantStatus = (
+  restaurantId: number,
+  status: string,
+  accessToken: string
+) =>
+  axios.patch(
+    `${BASE_URL}/restaurants/${restaurantId}/`,
+    { status },
+    { headers: { Authorization: `Bearer ${accessToken}` } }
+  );
+
+// Xoá nhà hàng
+export const deleteRestaurant = (
+  restaurantId: number,
+  accessToken: string
+) =>
+  axios.delete(
+    `${BASE_URL}/restaurants/${restaurantId}/`,
+    { headers: { Authorization: `Bearer ${accessToken}` } }
+  );
+
+  // Lấy chi tiết nhà hàng
+export const getRestaurantDetail = (id: string, accessToken: string) =>
+  axios.get(`${BASE_URL}/restaurants/${id}/`, {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
+
+// Cập nhật thông tin nhà hàng
+export const updateRestaurant = (id: string, accessToken: string, data: RestaurantCreate) => {
+  const formData = new FormData();
+  Object.entries(data).forEach(([key, value]) => {
+    if (key === "images" && Array.isArray(value)) {
+      value.forEach((file) => formData.append("images", file));
+    } else if (key === "categories" && Array.isArray(value)) {
+      formData.append("categories", JSON.stringify(value));
+    } else if (value !== undefined) {
+      formData.append(key, value as string);
+    }
+  });
+  return axios.put(`${BASE_URL}/restaurants/${id}/`, formData, {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
+};
+
 // ------------------ Menu Item APIs ------------------
 export const getMenuItems = async (menuId: string) => {
   const response = await axios.get(`${BASE_URL}/restaurants/menus/${menuId}/items/`);
@@ -244,3 +289,29 @@ export const getMenuItemReviews = (menuItemId: string) =>
   axios.get(`${BASE_URL}/reviews/menu-item/${menuItemId}/`);
 
 export const getUserReviews = () => axiosInstance.get("/reviews/user/");
+
+export const adminLogin = (data: { email: string; password: string }) =>
+  axios.post(`${BASE_URL}/users/admin/login/`, data);
+
+export const getAdminAccounts = (accessToken: string) =>
+  axios.get(`${BASE_URL}/users/admins/`, {
+    headers: { Authorization: `Bearer ${accessToken}` }
+  });
+
+export const deleteAdminAccount = (id: number, accessToken: string) =>
+  axios.delete(`${BASE_URL}/users/admins/${id}/`, {
+    headers: { Authorization: `Bearer ${accessToken}` }
+  });
+
+export const updateAdminPermissions = (id: number, data: { permissions: string }, accessToken: string) =>
+  axios.patch(`${BASE_URL}/users/admins/${id}/`, data, {
+    headers: { Authorization: `Bearer ${accessToken}` }
+  });
+
+export const createAdminAccount = (
+  data: { username: string; email: string; password: string; permissions?: string },
+  accessToken: string
+) =>
+  axios.post(`${BASE_URL}/users/admins/`, data, {
+    headers: { Authorization: `Bearer ${accessToken}` }
+  });

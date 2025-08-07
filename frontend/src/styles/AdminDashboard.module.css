@@ -1,0 +1,24 @@
+.container {
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  background: #fff;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 32px 24px;
+}
+.title { font-size: 2rem; font-weight: 700; margin-bottom: 24px; }
+.menu { display: flex; gap: 16px; margin-bottom: 32px; }
+.menuBtn { padding: 10px 24px; background: #e0f2fe; color: #0ea5e9; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; }
+.section { background: #f6f8fa; border-radius: 10px; padding: 24px; }
+.sectionTitle { font-size: 1.3rem; font-weight: 600; }
+.createBtn { background: #22c55e; color: #fff; border: none; border-radius: 6px; padding: 8px 18px; font-weight: 600; cursor: pointer; }
+.createForm { display: flex; gap: 12px; margin-bottom: 16px; }
+.input { padding: 8px 12px; border-radius: 6px; border: 1px solid #e5e7eb; font-size: 1rem; }
+.saveBtn { background: #2563eb; color: #fff; border: none; border-radius: 6px; padding: 8px 18px; font-weight: 600; cursor: pointer; }
+.cancelBtn { background: #64748b; color: #fff; border: none; border-radius: 6px; padding: 8px 18px; font-weight: 600; cursor: pointer; }
+.message { color: #22c55e; margin-left: 12px; }
+.table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+.table th, .table td { border: 1px solid #e5e7eb; padding: 10px; text-align: left; }
+.editBtn { background: #f59e42; color: #fff; border: none; border-radius: 6px; padding: 6px 12px; font-weight: 500; cursor: pointer; margin-right: 8px; }
+.deleteBtn { background: #ef4444; color: #fff; border: none; border-radius: 6px; padding: 6px 12px; font-weight: 500; cursor: pointer; }

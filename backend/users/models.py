@@ -30,11 +30,20 @@ class User(AbstractUser):
 
 
 class Admin(models.Model):
+    PERMISSION_CHOICES = [
+        ('full', 'Full'),
+        ('registrations', 'Manage Registrations'),
+        ('restaurants', 'Manage Restaurants'),
+    ]
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    permissions = models.TextField(blank=True, null=True)
-    
+    permissions = models.CharField(
+        max_length=20,
+        choices=PERMISSION_CHOICES,
+        default='full'
+    )
+
     def __str__(self):
-        return f"Admin: {self.user.username}"
+        return f"Admin: {self.user.username} ({self.get_permissions_display()})"
 
 
 class RestaurantRegistration(models.Model):

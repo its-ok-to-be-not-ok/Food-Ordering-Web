@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Restaurant } from "@/types/restaurant";
 import RestaurantCard from "@/components/restaurants/RestaurantCard";
-import { getUserRestaurants } from "@/services/service";
+import { getUserRestaurants, toggleRestaurantStatus, deleteRestaurant } from "@/services/service";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 
@@ -11,7 +11,6 @@ export default function MyRestaurantsPage() {
   const [loading, setLoading] = useState(true);
 
   const userId = useSelector((state: RootState) => state.auth.user?.id);
-  
   const accessToken = useSelector((state: RootState) => state.auth.access);
 
   useEffect(() => {
@@ -29,6 +28,30 @@ export default function MyRestaurantsPage() {
       })
       .finally(() => setLoading(false));
   }, [userId, accessToken]);
+
+  // Đóng/mở cửa nhà hàng
+  const handleToggleStatus = async (restaurantId: number, currentStatus: string) => {
+    if (!accessToken) return;
+    const newStatus = currentStatus === "active" ? "inactive" : "active";
+    await toggleRestaurantStatus(restaurantId, newStatus, accessToken);
+    setRestaurants((prev) =>
+      prev.map((r) => (String(r.id) === String(restaurantId) ? { ...r, status: newStatus } : r))
+    );
+  };
+
+  // Xoá nhà hàng
+  const handleDelete = async (restaurantId: number) => {
+  if (!accessToken) return;
+  if (window.confirm("Bạn có chắc muốn xoá nhà hàng này?")) {
+    try {
+      await deleteRestaurant(restaurantId, accessToken);
+      setRestaurants((prev) => prev.filter((r) => String(r.id) !== String(restaurantId)));
+      alert("Xoá thành công!");
+    } catch (err: any) {
+      alert("Xoá thất bại! " + (err?.response?.data?.error || err.message));
+    }
+  }
+};
 
   return (
     <main style={{ maxWidth: 900, margin: "0 auto", padding: 24 }}>
@@ -51,7 +74,7 @@ export default function MyRestaurantsPage() {
                   <RestaurantCard restaurant={res} />
                   <div style={{ display: "flex", gap: 8, marginTop: 8 }}>
                     <Link
-                      href={`/owner/restaurants/${res.id}`}
+                      href={`/user/my-restaurants/${res.id}`}
                       style={{
                         padding: "6px 14px",
                         background: "#2563eb",
@@ -102,6 +125,34 @@ export default function MyRestaurantsPage() {
                     >
                       Báo cáo kinh doanh
                     </Link>
+                    <button
+                      onClick={() => handleToggleStatus(Number(res.id), res.status)}
+                      style={{
+                        padding: "6px 14px",
+                        background: res.status === "active" ? "#f87171" : "#22d3ee",
+                        color: "#fff",
+                        borderRadius: 6,
+                        fontSize: 14,
+                        border: "none",
+                        cursor: "pointer",
+                      }}
+                    >
+                      {res.status === "active" ? "Đóng cửa" : "Mở cửa"}
+                    </button>
+                    <button
+                      onClick={() => handleDelete(Number(res.id))}
+                      style={{
+                        padding: "6px 14px",
+                        background: "#ef4444",
+                        color: "#fff",
+                        borderRadius: 6,
+                        fontSize: 14,
+                        border: "none",
+                        cursor: "pointer",
+                      }}
+                    >
+                      Xoá nhà hàng
+                    </button>
                   </div>
                 </div>
               ))}

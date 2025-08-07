@@ -12,11 +12,12 @@ export interface Restaurant {
   name: string;
   address: string;
   phone: string;
+  email?: string;
   description: string;
   rating: number;
   categories: [];
-  active?: boolean;
-  imageUrl?: string;
+  status: "active" | "inactive";
+  images: string[];
 }
 
 export interface RestaurantCreate {
