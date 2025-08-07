@@ -2,7 +2,6 @@ import React from "react";
 import { Restaurant } from "@/types/restaurant";
 import styles from "@/styles/RestaurantCard.module.css";
 
-
 export default function RestaurantCard({ restaurant }: { restaurant: Restaurant }) {
   return (
     <div className={styles.card}>
@@ -11,14 +10,16 @@ export default function RestaurantCard({ restaurant }: { restaurant: Restaurant 
         <span className={styles.rating}>⭐ {restaurant.rating.toFixed(1)}</span>
       </div>
       <div className={styles.categories}>
-        console.log("Restaurant categories:", restaurant.categories);
-        {restaurant.categories
-          ?.filter((cat) => cat && cat.id && cat.name)
-          .map((cat) => (
-            <span key={cat.id} className={styles.categoryBadge}>
-              {cat.name}
+        <span className={styles.label}>Danh mục:</span>{" "}
+        {Array.isArray(restaurant.categories) && restaurant.categories.length > 0 ? (
+          restaurant.categories.map((cat, idx) => (
+            <span key={idx} className={styles.categoryBadge}>
+              {cat}
             </span>
-          ))}
+          ))
+        ) : (
+          <span className={styles.categoryBadge}>Chưa có</span>
+        )}
       </div>
       <p className={styles.description}>{restaurant.description}</p>
       <div className={styles.info}>

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { User, AuthResponse } from "@/types/user";
 import { RestaurantCreate } from "@/types/restaurant";
-import { Menu } from "@/types/menu";
+import { Menu, MenuItem } from "@/types/menu";
 
 
 const BASE_URL = "http://localhost:8000/api";
@@ -183,15 +183,7 @@ export const getAllMenuItems = async (): Promise<MenuItem[]> => {
       throw new Error("Dữ liệu trả về không phải danh sách nhà hàng.");
     }
 
-    const allItems = [];
-
-    for (const restaurant of restaurants) {
-      for (const menu of restaurant.menus) {
-        if (Array.isArray(menu.items)) {
-          allItems.push(...menu.items);
-        }
-      }
-    }
+    // Remove the first allItems declaration and related unused code
 
     if (!Array.isArray(restaurants) || restaurants.length === 0) {
       console.warn("No restaurants found.");

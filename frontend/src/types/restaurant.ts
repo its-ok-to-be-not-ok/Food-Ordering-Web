@@ -1,7 +1,4 @@
-export type Category = {
-  id: number;
-  name: string;
-};
+
 export interface MenuItem {
   id: string;
   name: string;
@@ -17,7 +14,7 @@ export interface Restaurant {
   phone: string;
   description: string;
   rating: number;
-  categories: Category[];
+  categories: [];
   active?: boolean;
   imageUrl?: string;
 }
