@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Header from "@/components/layout/Header";
 import styles from "@/styles/HomePages.module.css";
-import { getAllMenuItems } from '@/services/service';
+import { getAllMenuItems } from "@/services/service";
 
 interface MenuItem {
   id: number;
@@ -17,15 +17,19 @@ export default function HomePage() {
 
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true);
-      setError(null);
       try {
-        const items = await getAllMenuItems();
-        console.log("Items received in HomePage:", items);
-        setMenuItems(items);
-      } catch (error: any) {
-        console.error("Error in HomePage:", error.message, error.response?.status);
-        setError(`Lỗi: ${error.message} (Mã lỗi: ${error.response?.status})`);
+        const items: MenuItem[] = await getAllMenuItems();
+
+        // Kiểm tra dữ liệu hợp lệ trước khi set
+        if (Array.isArray(items)) {
+          setMenuItems(items);
+        } else {
+          setError("Dữ liệu trả về không hợp lệ.");
+        }
+      } catch (err: any) {
+        setError(
+          `Lỗi: ${err.message || "Không xác định"} (Mã lỗi: ${err?.response?.status || "N/A"})`
+        );
       } finally {
         setLoading(false);
       }
@@ -43,9 +47,7 @@ export default function HomePage() {
           <br />
           <span>Thượng hạng</span>
         </h2>
-        <p>
-          Chuyên cung cấp món ăn đảm bảo dinh dưỡng và phù hợp đến người dùng
-        </p>
+        <p>Chuyên cung cấp món ăn đảm bảo dinh dưỡng và phù hợp đến người dùng</p>
       </div>
 
       <div className={styles.menuSection}>
@@ -55,7 +57,7 @@ export default function HomePage() {
         ) : error ? (
           <p className={styles.errorMessage}>{error}</p>
         ) : menuItems.length === 0 ? (
-          <p>Không có món ăn nào</p>
+          <p>Không có món ăn nào.</p>
         ) : (
           <ul className={styles.menuList}>
             {menuItems.map((item) => (
