@@ -1,4 +1,5 @@
 import React from "react";
+import { useRouter } from "next/router";
 import styles from "@/styles/RestaurantCard2.module.css";
 
 interface Restaurant {
@@ -15,8 +16,19 @@ interface Restaurant {
 }
 
 const RestaurantCard2: React.FC<{ restaurant: Restaurant }> = ({ restaurant }) => {
+  const router = useRouter();
+
+  const handleClick = () => {
+    router.push(`/restaurants/${restaurant.id}`);
+  };
+
   return (
-    <div className={styles["restaurant-card"]}>
+    <div
+      className={styles["restaurant-card"]}
+      onClick={handleClick}
+      style={{ cursor: "pointer" }}
+      title={`Xem chi tiết ${restaurant.name}`}
+    >
       <span className={styles.rating}>{restaurant.rating} ⭐</span>
       <h4>{restaurant.name}</h4>
       <div className={styles.desc}>{restaurant.description}</div>

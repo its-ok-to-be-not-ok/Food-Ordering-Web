@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 import styles from "@/styles/RestaurantDetail.module.css";
 import { getRestaurantDetail } from "@/services/service";
 import { useRouter } from "next/router";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/store";
+import Header from "@/components/layout/Header";
+import { addToCart } from "@/store/slices/cartSlice";
 
 export default function RestaurantDetailPage() {
   const router = useRouter();
@@ -11,6 +13,7 @@ export default function RestaurantDetailPage() {
   const accessToken = useSelector((state: RootState) => state.auth.access); // Lấy accessToken từ authSlice
   const [restaurant, setRestaurant] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (!id) return;
@@ -27,10 +30,33 @@ export default function RestaurantDetailPage() {
     fetchDetail();
   }, [id, accessToken]);
 
+  // Hàm đặt món: hỏi số lượng, lưu vào cartSlice
+  const handleOrder = (item: any) => {
+    let quantityStr = window.prompt(`Nhập số lượng muốn đặt cho "${item.name}":`, "1");
+    if (!quantityStr) return;
+    const quantity = parseInt(quantityStr);
+    if (isNaN(quantity) || quantity <= 0) {
+      alert("Vui lòng nhập số lượng hợp lệ!");
+      return;
+    }
+    dispatch(
+      addToCart({
+        item: {
+          ...item,
+          id: item.id.toString(),
+        },
+        quantity,
+      })
+    );
+    alert(`Đã thêm ${quantity} "${item.name}" vào giỏ hàng!`);
+  };
+
   if (loading) return <div className={styles.loading}>Đang tải...</div>;
   if (!restaurant) return <div className={styles.error}>Không tìm thấy nhà hàng.</div>;
 
   return (
+    <>
+    <Header />
     <div className={styles.container}>
       {/* Phần thông tin nhà hàng */}
       <div className={styles.header}>
@@ -116,7 +142,7 @@ export default function RestaurantDetailPage() {
                         <button
                           className={styles.orderBtn}
                           disabled={item.status !== "available"}
-                          onClick={() => alert(`Đặt món: ${item.name}`)}
+                            onClick={() => handleOrder(item)}
                         >
                           Đặt món
                         </button>
@@ -134,5 +160,6 @@ export default function RestaurantDetailPage() {
         )}
       </div>
     </div>
+    </>
   );
 }

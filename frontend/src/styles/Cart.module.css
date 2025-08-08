@@ -1,0 +1,10 @@
+.container { max-width: 900px; margin: 0 auto; padding: 32px 16px; background: #fff; border-radius: 16px; }
+.title { font-size: 1.8rem; font-weight: bold; margin-bottom: 24px; }
+.empty { color: #888; font-size: 1.1rem; text-align: center; margin: 32px 0; }
+.cartTable { width: 100%; border-collapse: collapse; margin-bottom: 24px; }
+.cartTable th, .cartTable td { padding: 12px 8px; border-bottom: 1px solid #eee; text-align: left; }
+.itemInfo { display: flex; align-items: center; gap: 12px; }
+.itemImage { width: 48px; height: 48px; object-fit: cover; border-radius: 8px; }
+.removeBtn { background: #ef4444; color: #fff; border: none; border-radius: 6px; padding: 6px 14px; cursor: pointer; }
+.summary { display: flex; align-items: center; gap: 16px; font-size: 1.2rem; margin-top: 12px; }
+.clearBtn { background: #f59e42; color: #fff; border: none; border-radius: 6px; padding: 6px 14px; cursor: pointer; margin-left: 16px; }

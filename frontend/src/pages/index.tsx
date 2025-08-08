@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import Header from "@/components/layout/Header";
-import styles from "@/styles/HomePages.module.css";
+import styles from "@/styles/HomePage.module.css";
 import { getPopularRestaurants } from '@/services/service';
 import RestaurantCard2 from "@/components/restaurants/RestaurantCard2";
+
 
 interface Restaurant {
   id: number;
@@ -21,6 +22,7 @@ export default function HomePage() {
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  
 
   useEffect(() => {
     const fetchData = async () => {

@@ -2,12 +2,14 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import styles from "./Header.module.css";
 import SearchBar from "@/components/search/SearchBar";
 
 export default function Header() {
   const [user, setUser] = useState<any>(null);
   const [showDropdown, setShowDropdown] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -28,6 +30,10 @@ export default function Header() {
     setShowDropdown(!showDropdown);
   };
 
+  const handleCartClick = () => {
+    router.push("/cart");
+  };
+
   return (
     <header className={styles.header}>
       <div className={styles.logo}>
@@ -39,6 +45,20 @@ export default function Header() {
       </div>
 
       <div className={styles.userSection}>
+        {/* Icon giỏ hàng */}
+        <div
+          className={styles.cartIconWrapper}
+          onClick={handleCartClick}
+          title="Giỏ hàng"
+          style={{ display: "inline-block", marginRight: 12, cursor: "pointer" }}
+        >
+          <img
+            src="/images/cart.png"
+            alt="Cart"
+            className={styles.cartIcon}
+            style={{ width: 32, height: 32 }}
+          />
+        </div>
         {!user ? (
           <nav className={styles.authLinks}>
             <Link href="/login">Đăng nhập</Link>

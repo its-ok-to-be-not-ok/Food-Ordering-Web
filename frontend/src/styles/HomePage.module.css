@@ -71,10 +71,9 @@ body, html {
 }
 
 .restaurantList {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 32px;
-  justify-content: center;
   margin-top: 16px;
 }
 
