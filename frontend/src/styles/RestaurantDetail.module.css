@@ -1,0 +1,30 @@
+.container { max-width: 1100px; margin: 0 auto; padding: 32px; background: #fff; border-radius: 16px; }
+.header { display: flex; gap: 32px; margin-bottom: 32px; }
+.restaurantImage { width: 320px; height: 220px; object-fit: cover; border-radius: 16px; }
+.info { flex: 1; }
+.name { font-size: 2.2rem; font-weight: bold; margin-bottom: 8px; }
+.status { margin-bottom: 8px; }
+.active { color: #22c55e; font-weight: bold; }
+.inactive { color: #f59e42; font-weight: bold; }
+.suspended { color: #ef4444; font-weight: bold; }
+.rating { margin-bottom: 8px; }
+.address, .contact, .categories, .description, .registered { margin-bottom: 8px; }
+.categoryTag { background: #e5e7eb; border-radius: 8px; padding: 2px 8px; margin-right: 4px; }
+.menuSection { margin-top: 32px; }
+.menuTitle { font-size: 1.5rem; font-weight: bold; margin-bottom: 16px; }
+.menuBlock { margin-bottom: 32px; }
+.menuName { font-size: 1.2rem; font-weight: bold; margin-bottom: 8px; }
+.menuDesc { margin-bottom: 8px; color: #666; }
+.menuItems { display: flex; flex-wrap: wrap; gap: 24px; }
+.menuItemCard { background: #f9fafb; border-radius: 12px; box-shadow: 0 2px 8px #e5e7eb; padding: 16px; width: 260px; display: flex; flex-direction: column; align-items: center; }
+.menuItemImage { width: 220px; height: 140px; object-fit: cover; border-radius: 10px; margin-bottom: 8px; }
+.menuItemInfo { width: 100%; }
+.menuItemName { font-weight: bold; margin-bottom: 4px; }
+.menuItemDesc { font-size: 0.95rem; color: #666; margin-bottom: 4px; }
+.menuItemPrice { font-weight: bold; margin-bottom: 4px; }
+.menuItemDiscount { color: #ef4444; margin-left: 8px; }
+.menuItemStatus { font-size: 0.95rem; margin-bottom: 8px; }
+.orderBtn { background: #22c55e; color: #fff; border: none; border-radius: 8px; padding: 8px 16px; cursor: pointer; font-weight: bold; }
+.orderBtn:disabled { background: #e5e7eb; color: #888; cursor: not-allowed; }
+.menuItemEmpty, .menuEmpty { color: #888; font-style: italic; margin: 16px 0; }
+.loading, .error { text-align: center; margin: 32px 0; font-size: 1.2rem; color: #ef4444; }
