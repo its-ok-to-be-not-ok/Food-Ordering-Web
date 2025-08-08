@@ -1,0 +1,142 @@
+.floatingCart {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: white;
+  border-radius: 50%;
+  padding: 10px;
+  box-shadow: 0 0 10px gray;
+  z-index: 1000;
+  cursor: pointer;
+}
+
+.cartIcon {
+  width: 40px;
+  height: 40px;
+}
+
+.itemCount {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: red;
+  color: white;
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-size: 12px;
+}
+
+.cartPanel {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 20px;
+  width: 400px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 0 20px rgba(0,0,0,0.2);
+  z-index: 1001;
+  border-radius: 12px;
+}
+
+.cartTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.cartTable th,
+.cartTable td {
+  border-bottom: 1px solid #ccc;
+  padding: 8px;
+  text-align: center;
+}
+
+.total {
+  text-align: right;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.orderButton,
+.confirmButton {
+  margin-top: 12px;
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 10px;
+  width: 100%;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.orderForm input {
+  width: 100%;
+  margin-top: 8px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.formGroup input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+/* Phần chi tiết đơn hàng */
+.orderDetailsContainer {
+  margin-top: 60px;
+  padding: 20px;
+  background: #f8f9fa;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.orderTitle {
+  margin-top: 0;
+  color: #333;
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+.orderSubtitle {
+  margin-top: 16px;
+  font-size: 18px;
+  color: #555;
+}
+
+.orderInfo {
+  margin: 6px 0;
+  font-size: 15px;
+  color: #444;
+}
+
+.orderTotal {
+  margin-top: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #222;
+}
+
+.orderItemList {
+  margin-top: 8px;
+  padding-left: 20px;
+}
+
+.orderItem {
+  margin-bottom: 6px;
+  list-style: disc;
+  font-size: 15px;
+}
