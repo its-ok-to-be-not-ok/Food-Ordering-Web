@@ -1,0 +1,110 @@
+.container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 24px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.heading {
+  margin-bottom: 20px;
+  font-size: 24px;
+  text-align: center;
+  color: #333;
+}
+
+.subheading {
+  margin-top: 30px;
+  margin-bottom: 10px;
+  font-size: 18px;
+  color: #444;
+}
+
+.info {
+  margin: 4px 0;
+  font-size: 15px;
+}
+
+.label {
+  font-weight: 600;
+  margin-bottom: 4px;
+  display: block;
+}
+
+.input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 6px;
+  margin-bottom: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.billTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 24px;
+}
+
+.billTable th,
+.billTable td {
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+}
+
+.billTable th {
+  background-color: #f9f9f9;
+  font-weight: 600;
+}
+
+.total {
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 16px;
+}
+
+.orderButtons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.button {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.confirmButton {
+  background-color: #4caf50;
+  color: white;
+}
+
+.confirmButton:hover:not(:disabled) {
+  background-color: #45a049;
+}
+
+.cancelButton {
+  background-color: #f44336;
+  color: white;
+}
+
+.cancelButton:hover:not(:disabled) {
+  background-color: #e53935;
+}
+
+

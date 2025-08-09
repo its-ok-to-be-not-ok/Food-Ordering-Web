@@ -3,8 +3,8 @@ import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import styles from "./LoginForm.module.css";
-import { login as loginAction } from "@/store/slices/authSlice"; // action Redux
-import { login as loginService } from "@/services/service"; // hàm gọi API
+import { login as loginAction } from "@/store/slices/authSlice";
+import { login as loginService } from "@/services/service";
 
 const LoginForm = () => {
   const dispatch = useDispatch();
@@ -21,15 +21,26 @@ const LoginForm = () => {
     }
 
     setError("");
-
     try {
-      const res = await loginService(email, password); // Gọi API
-      dispatch(loginAction(res));                      // Lưu Redux
-      localStorage.setItem("user", JSON.stringify(res)); // Lưu localStorage
-      router.push("/");                                 // Về trang chủ
-    } catch (err) {
+      const res = await loginService(email, password);
+
+      // Lưu Redux
+      dispatch(loginAction({
+        user: res.user,
+        access: res.access,
+        refresh: res.refresh,
+        
+      }));
+
+      // Lưu localStorage
+      localStorage.setItem("user", JSON.stringify(res.user));
+      localStorage.setItem("accessToken", res.access);
+      localStorage.setItem("refresh", res.refresh);
+
+      router.push("/");
+    } catch (err: any) {
       console.error(err);
-      setError("Đăng nhập thất bại!");
+      setError(err.message || "Đăng nhập thất bại!");
     }
   };
 

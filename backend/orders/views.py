@@ -40,7 +40,7 @@ class CreateOrderView(APIView):
             order = serializer.save()
             return Response({
                 "message": "Đặt hàng thành công", 
-                "order": OrderSerializer(order).data
+                "order": OrderSerializer(order ).data
             }, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

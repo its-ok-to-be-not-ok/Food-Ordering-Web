@@ -18,7 +18,7 @@ axiosInstance.interceptors.request.use((config) => {
   }
   return config;
 });
-
+export { axiosInstance };
 // ------------------ Auth APIs ------------------
 export const register = async (
   data: Omit<User, "id"> & { password: string }

@@ -28,3 +28,45 @@
 .orderBtn:disabled { background: #e5e7eb; color: #888; cursor: not-allowed; }
 .menuItemEmpty, .menuEmpty { color: #888; font-style: italic; margin: 16px 0; }
 .loading, .error { text-align: center; margin: 32px 0; font-size: 1.2rem; color: #ef4444; }
+.orderRow {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* khoảng cách giữa input và nút */
+  margin-top: 8px;
+}
+
+.quantityInput {
+  width: 60px;
+  padding: 6px;
+  font-size: 14px;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.quantityInput:focus {
+  border-color: #22c55e;
+  box-shadow: 0 0 4px rgba(11, 141, 74, 0.4);
+}
+
+.orderBtn {
+  padding: 6px 12px;
+  background-color: #22c55e;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s ease;
+}
+
+.orderBtn:hover:not(:disabled) {
+  background-color: #0ede7a;
+}
+
+.orderBtn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}

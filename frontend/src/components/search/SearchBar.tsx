@@ -4,13 +4,19 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import styles from "./SearchBar.module.css";
 
-export default function SearchBar() {
+interface SearchBarProps {
+  onSearch: (value: string) => void;
+}
+
+export default function SearchBar({ onSearch }: SearchBarProps) {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
 
   const handleSearch = () => {
-    if (searchQuery.trim()) {
-      router.push(`/search?query=${encodeURIComponent(searchQuery)}`);
+    const trimmedQuery = searchQuery.trim();
+    if (trimmedQuery) {
+      onSearch(trimmedQuery); // gọi hàm truyền từ cha trước
+      router.push(`/search?query=${encodeURIComponent(trimmedQuery)}`); // chuyển trang
     }
   };
 

@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
 import styles from "./Header.module.css";
 import SearchBar from "@/components/search/SearchBar";
 
@@ -10,6 +12,10 @@ export default function Header() {
   const [user, setUser] = useState<any>(null);
   const [showDropdown, setShowDropdown] = useState(false);
   const router = useRouter();
+
+  const totalItems = useSelector((state: RootState) =>
+    state.cart.items?.reduce((sum: number, item: any) => sum + item.quantity, 0)
+  );
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -22,8 +28,11 @@ export default function Header() {
 
   const handleLogout = () => {
     localStorage.removeItem("user");
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refresh");
     setUser(null);
     setShowDropdown(false);
+    router.push("/");
   };
 
   const toggleDropdown = () => {
@@ -41,16 +50,19 @@ export default function Header() {
       </div>
 
       <div className={styles.searchWrapper}>
-        <SearchBar />
+        <SearchBar
+          onSearch={(value) => {
+            router.push(`/search?query=${encodeURIComponent(value)}`);
+          }}
+        />
       </div>
 
       <div className={styles.userSection}>
-        {/* Icon giỏ hàng */}
         <div
           className={styles.cartIconWrapper}
           onClick={handleCartClick}
           title="Giỏ hàng"
-          style={{ display: "inline-block", marginRight: 12, cursor: "pointer" }}
+          style={{ display: "inline-block", marginRight: 12, cursor: "pointer", position: "relative" }}
         >
           <img
             src="/images/cart.png"
@@ -58,7 +70,11 @@ export default function Header() {
             className={styles.cartIcon}
             style={{ width: 32, height: 32 }}
           />
+          {totalItems > 0 && (
+            <span className={styles.cartBadge}>{totalItems}</span>
+          )}
         </div>
+
         {!user ? (
           <nav className={styles.authLinks}>
             <Link href="/login">Đăng nhập</Link>

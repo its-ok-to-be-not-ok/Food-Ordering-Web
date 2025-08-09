@@ -1,0 +1,41 @@
+.searchPage {
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: Arial, sans-serif;
+}
+
+.searchBarWrapper {
+  margin-bottom: 32px;
+}
+
+.section {
+  margin-bottom: 48px;
+}
+
+.sectionTitle {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 16px;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 4px;
+  color: #333;
+}
+
+.itemsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 16px;
+}
+
+.restaurantsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+.empty {
+  color: #777;
+  font-style: italic;
+  margin-top: 8px;
+}

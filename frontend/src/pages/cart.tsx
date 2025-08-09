@@ -1,12 +1,21 @@
+// pages/cart.tsx
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/store";
 import styles from "@/styles/Cart.module.css";
 import Header from "@/components/layout/Header";
 import { removeFromCart, clearCart } from "@/store/slices/cartSlice";
+import { useRouter } from "next/router";
 
 export default function CartPage() {
   const cart = useSelector((state: RootState) => state.cart);
   const dispatch = useDispatch();
+  const router = useRouter();
+
+  const totalPrice = cart.items?.reduce(
+    (sum: number, cartItem: any) =>
+      sum + cartItem.item.price * cartItem.quantity,
+    0
+  );
 
   const handleRemove = (id: string) => {
     dispatch(removeFromCart(id));
@@ -17,12 +26,6 @@ export default function CartPage() {
       dispatch(clearCart());
     }
   };
-
-  const totalPrice = cart.items?.reduce(
-    (sum: number, cartItem: any) =>
-      sum + cartItem.item.price * cartItem.quantity,
-    0
-  );
 
   return (
     <>
@@ -52,6 +55,10 @@ export default function CartPage() {
                           src={cartItem.item.image || "/default-food.jpg"}
                           alt={cartItem.item.name}
                           className={styles.itemImage}
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).src =
+                              "https://via.placeholder.com/80x80?text=No+Image";
+                          }}
                         />
                         <span>{cartItem.item.name}</span>
                       </div>
@@ -78,6 +85,12 @@ export default function CartPage() {
               <b>{totalPrice.toLocaleString()}₫</b>
               <button className={styles.clearBtn} onClick={handleClearCart}>
                 Xóa toàn bộ
+              </button>
+              <button
+                className={styles.orderBtn}
+                onClick={() => router.push("/orders")}
+              >
+                Đặt hàng
               </button>
             </div>
           </>
