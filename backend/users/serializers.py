@@ -1,7 +1,14 @@
 from rest_framework import serializers
 from .models import User, Admin, RestaurantRegistration
+from django.utils import timezone
 
 class UserSerializer(serializers.ModelSerializer):
+    date_joined = serializers.SerializerMethodField()
+
+    def get_date_joined(self, obj):
+        if obj.date_joined:
+            return timezone.localtime(obj.date_joined).strftime("%d/%m/%Y %H:%M")
+        return ""
     class Meta:
         model = User
         fields = ['id', 'username', 'email', 'phone', 'address', 'role', 'status', 'date_joined']
@@ -35,7 +42,14 @@ class RestaurantRegistrationSerializer(serializers.ModelSerializer):
         from restaurants.serializers import RestaurantSerializer
         return RestaurantSerializer(obj.restaurant).data if obj.restaurant else None
 
+    def get_registration_date(self, obj):
+        # Format: dd/mm/yyyy HH:MM
+        if obj.registration_date:
+            return timezone.localtime(obj.registration_date).strftime("%d/%m/%Y %H:%M")
+        return ""
+
     restaurant = serializers.SerializerMethodField("get_restaurant")
+    registration_date = serializers.SerializerMethodField("get_registration_date")
 
     class Meta:
         model = RestaurantRegistration

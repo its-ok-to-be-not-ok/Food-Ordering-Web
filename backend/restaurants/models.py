@@ -30,6 +30,7 @@ class Restaurant(models.Model):
     owner = models.ForeignKey("users.User", on_delete=models.CASCADE, related_name='restaurants')
     name = models.CharField(max_length=100)
     address = models.CharField(max_length=255)
+    city = models.CharField(max_length=100, null=True, blank=True)
     phone = models.CharField(max_length=20)
     email = models.EmailField()
     description = models.TextField()

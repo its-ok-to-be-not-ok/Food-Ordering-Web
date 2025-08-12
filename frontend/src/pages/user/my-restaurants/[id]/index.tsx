@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
+import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+import { useRouter } from "next/router";
 import { RootState } from "@/store";
-import styles from "@/styles/RegisterRestaurants.module.css";
+import styles from "@/styles/CreateAndUpdateRestaurant.module.css";
 import { RestaurantCreate, Restaurant } from "@/types/restaurant";
-import { getRestaurantDetail, updateRestaurant } from "@/services/service";
+import { getRestaurantDetail, updateRestaurant } from "@/services/restaurantService";
 
 const CATEGORY_OPTIONS = [
   { value: "com", label: "Cơm" },
@@ -24,7 +24,14 @@ const CATEGORY_OPTIONS = [
   { value: "khac", label: "Khác" },
 ];
 
-export default function RestaurantDetailPage() {
+const CITY_OPTIONS = [
+  "Hà Nội",
+  "Hồ Chí Minh",
+  "Đà Nẵng",
+  "Nha Trang",
+];
+
+export default function UpdateRestaurantPage() {
   const router = useRouter();
   const { id } = router.query;
   const accessToken = useSelector((state: RootState) => state.auth.access);
@@ -37,6 +44,7 @@ export default function RestaurantDetailPage() {
     description: "",
     categories: [],
     images: [],
+    city: CITY_OPTIONS[0],
   });
   const [previewImages, setPreviewImages] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
@@ -50,17 +58,18 @@ export default function RestaurantDetailPage() {
       .then((res: { data: Restaurant }) => {
         const data: Restaurant = res.data;
         setForm({
-          name: data.name,
-          address: data.address,
-          phone: data.phone,
+          name: data.name || "",
+          address: data.address || "",
+          phone: data.phone || "",
           email: data.email ?? "",
           description: data.description || "",
           categories: Array.isArray(data.categories) ? data.categories : [],
           images: [],
+          city: data.city || CITY_OPTIONS[0],
         });
         setPreviewImages(Array.isArray(data.images) ? data.images : []);
       })
-      .catch(() => setMessage("Không tìm thấy nhà hàng hoặc bạn không có quyền."))
+      .catch(() => setMessage("Không thể tải thông tin nhà hàng."))
       .finally(() => setLoading(false));
   }, [id, accessToken]);
 
@@ -71,6 +80,10 @@ export default function RestaurantDetailPage() {
   const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selected = Array.from(e.target.selectedOptions).map((opt) => opt.value);
     setForm({ ...form, categories: selected });
+  };
+
+  const handleCityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setForm({ ...form, city: e.target.value });
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -102,10 +115,19 @@ export default function RestaurantDetailPage() {
   if (loading) return <div style={{ padding: 32 }}>Đang tải thông tin nhà hàng...</div>;
 
   return (
-    <div className={styles.container}>
-      <h1 className={styles.title}>Thông tin nhà hàng</h1>
-      <form onSubmit={handleSubmit} style={{ maxWidth: 500 }}>
-        <div style={{ marginBottom: 16 }}>
+    <div className={styles.wrapper}>
+      <div className={styles.headerRow}>
+        <button
+          className={styles.backBtn}
+          onClick={() => router.push("/user/my-restaurants")}
+          title="Quay lại danh sách quán ăn"
+        >
+          ← Quay lại
+        </button>
+        <h1 className={styles.title}>Cập nhật thông tin nhà hàng</h1>
+      </div>
+      <form onSubmit={handleSubmit} className={styles.form}>
+        <div className={styles.formGroup}>
           <label>Tên nhà hàng *</label>
           <input
             name="name"
@@ -113,10 +135,9 @@ export default function RestaurantDetailPage() {
             onChange={handleChange}
             required
             className={styles.input}
-            style={{ width: "100%" }}
           />
         </div>
-        <div style={{ marginBottom: 16 }}>
+        <div className={styles.formGroup}>
           <label>Địa chỉ *</label>
           <input
             name="address"
@@ -124,10 +145,23 @@ export default function RestaurantDetailPage() {
             onChange={handleChange}
             required
             className={styles.input}
-            style={{ width: "100%" }}
           />
         </div>
-        <div style={{ marginBottom: 16 }}>
+        <div className={styles.formGroup}>
+          <label>Thành phố *</label>
+          <select
+            name="city"
+            value={form.city}
+            onChange={handleCityChange}
+            required
+            className={styles.input}
+          >
+            {CITY_OPTIONS.map((city) => (
+              <option key={city} value={city}>{city}</option>
+            ))}
+          </select>
+        </div>
+        <div className={styles.formGroup}>
           <label>Số điện thoại *</label>
           <input
             name="phone"
@@ -135,10 +169,9 @@ export default function RestaurantDetailPage() {
             onChange={handleChange}
             required
             className={styles.input}
-            style={{ width: "100%" }}
           />
         </div>
-        <div style={{ marginBottom: 16 }}>
+        <div className={styles.formGroup}>
           <label>Email *</label>
           <input
             name="email"
@@ -147,10 +180,9 @@ export default function RestaurantDetailPage() {
             onChange={handleChange}
             required
             className={styles.input}
-            style={{ width: "100%" }}
           />
         </div>
-        <div style={{ marginBottom: 16 }}>
+        <div className={styles.formGroup}>
           <label>Mô tả</label>
           <textarea
             name="description"
@@ -158,10 +190,9 @@ export default function RestaurantDetailPage() {
             onChange={handleChange}
             rows={3}
             className={styles.input}
-            style={{ width: "100%" }}
           />
         </div>
-        <div style={{ marginBottom: 16 }}>
+        <div className={styles.formGroup}>
           <label>Danh mục (giữ Ctrl để chọn nhiều)</label>
           <select
             name="categories"
@@ -169,7 +200,7 @@ export default function RestaurantDetailPage() {
             value={form.categories}
             onChange={handleCategoryChange}
             className={styles.input}
-            style={{ width: "100%", height: 90 }}
+            style={{ height: 90 }}
           >
             {CATEGORY_OPTIONS.map((cat) => (
               <option key={cat.value} value={cat.value}>
@@ -178,7 +209,7 @@ export default function RestaurantDetailPage() {
             ))}
           </select>
         </div>
-        <div style={{ marginBottom: 16 }}>
+        <div className={styles.formGroup}>
           <label>Ảnh nhà hàng</label>
           <input
             type="file"
@@ -187,13 +218,13 @@ export default function RestaurantDetailPage() {
             onChange={handleImageChange}
             className={styles.input}
           />
-          <div style={{ display: "flex", gap: 8, marginTop: 8, flexWrap: "wrap" }}>
+          <div className={styles.previewImages}>
             {previewImages.map((src, idx) => (
               <img
                 key={idx}
                 src={src}
                 alt={`preview-${idx}`}
-                style={{ width: 80, height: 80, objectFit: "cover", borderRadius: 8, border: "1px solid #eee" }}
+                className={styles.previewImg}
               />
             ))}
           </div>
@@ -202,12 +233,17 @@ export default function RestaurantDetailPage() {
           type="submit"
           className={styles.registerBtn}
           disabled={submitting}
-          style={{ marginTop: 16 }}
         >
-          {submitting ? "Đang cập nhật..." : "Cập nhật thông tin"}
+          {submitting ? "Đang cập nhật..." : "Cập nhật thông tin nhà hàng"}
         </button>
         {message && (
-          <div style={{ marginTop: 16, color: message.includes("thành công") ? "#15803d" : "#b91c1c" }}>
+          <div
+            className={
+              message.includes("thành công")
+                ? styles.successMsg
+                : styles.errorMsg
+            }
+          >
             {message}
           </div>
         )}

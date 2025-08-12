@@ -112,23 +112,47 @@ class RestaurantStatsView(generics.ListAPIView):
 class PopularRestaurantsView(APIView):
     permission_classes = [permissions.AllowAny]
     def get(self, request):
-        restaurants = Restaurant.objects.filter(status='active').order_by('-rating')[:10]
+        accepted_restaurant_ids = RestaurantRegistration.objects.filter(status="approved").values_list("restaurant_id", flat=True)
+        restaurants = Restaurant.objects.filter(
+            status='active',
+            id__in=accepted_restaurant_ids
+        ).order_by('-rating')[:10]
         serializer = RestaurantSerializer(restaurants, many=True)
         return Response(serializer.data)
 
+# class SearchRestaurantsView(APIView):
+#     def get(self, request):
+#         query = request.query_params.get('q', '')
+#         restaurants = Restaurant.objects.filter(
+#             name__icontains=query,
+#             status='active'
+#         )
+#         serializer = RestaurantSerializer(restaurants, many=True)
+#         return Response(serializer.data)
+    
 class SearchRestaurantsView(APIView):
     def get(self, request):
-        query = request.query_params.get('q', '')
+        query = request.query_params.get('q', '').strip()
         restaurants = Restaurant.objects.filter(
-            name__icontains=query,
             status='active'
+        ).filter(
+            # Tìm theo email hoặc số điện thoại hoặc tên
+            email__icontains=query
+        ) | Restaurant.objects.filter(
+            status='active',
+            phone__icontains=query
+        ) | Restaurant.objects.filter(
+            status='active',
+            name__icontains=query
         )
+        # Loại bỏ trùng lặp (nếu có)
+        restaurants = restaurants.distinct()
         serializer = RestaurantSerializer(restaurants, many=True)
         return Response(serializer.data)
 
 class UserRestaurantListView(APIView):
     def get(self, request, user_id):
-        restaurants = Restaurant.objects.filter(owner__id=user_id)
+        restaurants = Restaurant.objects.filter(owner__id=user_id).order_by('id')
         serializer = RestaurantSerializer(restaurants, many=True, context={"request": request})
         return Response(serializer.data, status=status.HTTP_200_OK)
     
@@ -145,3 +169,27 @@ class RestaurantCreateView(generics.CreateAPIView):
             restaurant=restaurant,
             status="pending"
         )
+
+class RestaurantBanView(APIView):
+    permission_classes = [permissions.IsAdminUser]
+
+    def post(self, request, restaurant_id):
+        try:
+            restaurant = Restaurant.objects.get(pk=restaurant_id)
+        except Restaurant.DoesNotExist:
+            return Response({"error": "Không tìm thấy nhà hàng."}, status=status.HTTP_404_NOT_FOUND)
+        restaurant.status = "banned"
+        restaurant.save()
+        return Response({"success": True})
+    
+class RestaurantUnbanView(APIView):
+    permission_classes = [permissions.IsAdminUser]
+
+    def post(self, request, restaurant_id):
+        try:
+            restaurant = Restaurant.objects.get(pk=restaurant_id)
+        except Restaurant.DoesNotExist:
+            return Response({"error": "Không tìm thấy nhà hàng."}, status=status.HTTP_404_NOT_FOUND)
+        restaurant.status = "inactive"
+        restaurant.save()
+        return Response({"success": True})

@@ -1,50 +1,122 @@
 .card {
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  padding: 20px;
   background: #fff;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-  margin-bottom: 20px;
-  max-width: 420px;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px #e5e7eb;
+  padding: 24px 32px;
+  min-width: 340px;
+  max-width: 540px;
+  margin-bottom: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
 }
+
 .header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
 }
+
 .name {
-  font-size: 1.3rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.rating {
+  background: #fde68a;
+  color: #b45309;
+  padding: 4px 12px;
+  border-radius: 8px;
+  font-size: 1.1rem;
   font-weight: 600;
 }
-.rating {
-  background: #fbbf24;
-  color: #fff;
-  padding: 4px 10px;
-  border-radius: 8px;
-  font-weight: 500;
-}
+
 .categories {
-  margin: 10px 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
 }
+
+.label {
+  font-weight: 600;
+  color: #64748b;
+}
+
 .categoryBadge {
-  display: inline-block;
   background: #e0e7ff;
   color: #3730a3;
   padding: 3px 10px;
   border-radius: 8px;
-  font-size: 0.95rem;
-  margin-right: 6px;
-  margin-bottom: 4px;
+  font-size: 1rem;
+  margin-right: 2px;
 }
+
 .description {
-  margin: 10px 0;
-  color: #374151;
+  color: #334155;
+  font-size: 1rem;
+  margin: 6px 0;
 }
+
 .info {
-  font-size: 0.98rem;
-  color: #4b5563;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 1rem;
 }
-.label {
+
+.status {
+  margin-top: 8px;
+  font-weight: 600;
+}
+
+.statusActive {
+  color: #22c55e;
+}
+
+.statusInactive {
+  color: #f59e42;
+}
+
+.statusBanned {
+  color: #ef4444;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.actionBtn {
+  padding: 8px 18px;
+  border-radius: 8px;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
   font-weight: 500;
-  color: #111827;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  color: #fff;
+  background: #2563eb;
+  box-shadow: 0 1px 4px #e0e7ff;
+  outline: none;
+  display: inline-block;
 }
+
+.actionBtn:hover {
+  background: #1d4ed8;
+  color: #fff;
+  box-shadow: 0 2px 8px #a5b4fc;
+}
+
+.infoBtn { background: #2563eb; }
+.menuBtn { background: #22c55e; }
+.orderBtn { background: #f59e42; }
+.reportBtn { background: #64748b; }
+.openBtn { background: #22d3ee; }
+.closeBtn { background: #f87171; }
+.deleteBtn { background: #ef4444; }
+.deleteBtn:hover { background: #b91c1c; }

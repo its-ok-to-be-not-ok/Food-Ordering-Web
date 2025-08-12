@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Header from "@/components/layout/Header";
 import styles from "@/styles/HomePage.module.css";
-import { getPopularRestaurants } from '@/services/service';
+import { getPopularRestaurants } from '@/services/restaurantService';
 import RestaurantCard2 from "@/components/restaurants/RestaurantCard2";
 
 

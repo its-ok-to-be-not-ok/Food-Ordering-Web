@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import SearchBar from "@/components/search/SearchBar";
 import MenuItem from "@/components/restaurants/MenuItemCard";
-import RestaurantCard from "@/components/restaurants/RestaurantCard";
+import RestaurantCard from "@/components/restaurants/RestaurantCard2";
 import styles from "@/styles/Search.module.css";
 
 interface MenuItemType {
@@ -85,8 +85,8 @@ export default function SearchPage() {
               if (item.name.toLowerCase().includes(keyword)) {
                 matchedItems.push({
                   ...item,
-                  restaurantName: restaurant.name, // Gán tên nhà hàng
-                  menuName: menu.title,             // Gán tên menu
+                  restaurantName: restaurant.name, 
+                  menuName: menu.title,             
                 });
               }
             });

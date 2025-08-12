@@ -5,7 +5,8 @@ import styles from "@/styles/Order.module.css";
 import Header from "@/components/layout/Header";
 import { clearCart } from "@/store/slices/cartSlice";
 import { useEffect, useState } from "react";
-import { createOrder, axiosInstance } from "@/services/service";
+import { createOrder} from "@/services/orderService";
+import { axiosInstance } from "@/utils/axios";
 import { useRouter } from "next/router";
 
 export default function OrderPage() {

@@ -92,8 +92,19 @@ export default function Header() {
               <div className={styles.dropdown}>
                 <p><strong>{user.username}</strong></p>
                 <p>{user.email}</p>
-                <p>Vai trò: {user.role}</p>
-                <button className={styles.button} onClick={handleLogout}>Đăng xuất</button>
+                <button
+                  className={styles.button}
+                  onClick={() => {
+                    setShowDropdown(false);
+                    router.push("/user/my-restaurants");
+                  }}
+                  style={{ width: "100%", marginBottom: 8 }}
+                >
+                  Nhà hàng của tôi
+                </button>
+                <button className={styles.button} onClick={handleLogout}>
+                  Đăng xuất
+                </button>
               </div>
             )}
           </div>

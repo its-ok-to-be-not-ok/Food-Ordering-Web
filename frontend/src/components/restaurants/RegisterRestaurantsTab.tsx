@@ -13,7 +13,7 @@ const STATUS_OPTIONS = [
   { label: "Từ chối", value: "rejected" },
 ];
 
-export default function RegisterRestaurantsPage() {
+export default function RegisterRestaurantsTab() {
   const [registrations, setRegistrations] = useState<Registration[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("");

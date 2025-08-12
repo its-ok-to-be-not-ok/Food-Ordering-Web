@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import Restaurant, Menu, MenuItem, RestaurantStat, MenuItemStat
 from users.serializers import UserSerializer
+from django.utils import timezone
 
 class MenuItemSerializer(serializers.ModelSerializer):
     class Meta:
@@ -17,10 +18,16 @@ class MenuSerializer(serializers.ModelSerializer):
 class RestaurantSerializer(serializers.ModelSerializer):
     owner = UserSerializer(read_only=True)
     menus = MenuSerializer(many=True, read_only=True)
+    registered_date = serializers.SerializerMethodField()
+
+    def get_registered_date(self, obj):
+        if obj.registered_date:
+            return timezone.localtime(obj.registered_date).strftime("%d/%m/%Y %H:%M")
+        return ""
 
     class Meta:
         model = Restaurant
-        fields = ['id', 'owner', 'name', 'address', 'phone', 'email', 'description', 
+        fields = ['id', 'owner', 'name', 'city', 'address', 'phone', 'email', 'description', 
                  'status', 'rating', 'categories', 'registered_date', 'menus']
         read_only_fields = ['id', 'rating', 'registered_date']
 

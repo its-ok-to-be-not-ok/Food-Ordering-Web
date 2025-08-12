@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 import styles from "@/styles/AdminLogin.module.css";
-import { adminLogin } from "@/services/service";
+import { adminLogin } from "@/services/adminService";
 import { useDispatch } from "react-redux";
 import { login } from "@/store/slices/authSlice";
 

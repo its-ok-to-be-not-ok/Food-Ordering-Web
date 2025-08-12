@@ -1,0 +1,170 @@
+.wrapper {
+  width: 100%;
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 36px 0;
+}
+
+.sectionTitle {
+  font-size: 1.6rem;
+  font-weight: 800;
+  margin-bottom: 36px;
+  color: #1e293b;
+  letter-spacing: 0.5px;
+}
+
+.faultSection {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.faultCard {
+  background: #fff; /* Đổi sang màu trắng chuyên nghiệp */
+  border-radius: 18px;
+  box-shadow: 0 4px 24px #fecaca55;
+  padding: 32px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  border: 1.5px solid #cae0fe;
+  width: 100%;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+
+.faultCard:hover {
+  box-shadow: 0 8px 32px #fca5a5;
+  border-color: #fda4af;
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 32px;
+  flex-wrap: wrap;
+  border-bottom: 1px dashed #a5e9fc;
+  padding-bottom: 12px;
+}
+
+.reporter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  color: #be123c;
+  font-size: 1.08rem;
+}
+
+.iconUser {
+  font-size: 1.2rem;
+}
+
+.reporterLabel {
+  color: #be123c;
+  font-weight: 700;
+}
+
+.reporterInfo {
+  color: #334155;
+}
+
+.date {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #64748b;
+  font-size: 1rem;
+}
+
+.iconDate {
+  font-size: 1.2rem;
+}
+
+.dateLabel {
+  font-weight: 700;
+  color: #64748b;
+}
+
+.dateInfo {
+  color: #334155;
+}
+
+.restaurantBlock {
+  margin-top: 8px;
+}
+
+.restaurantLabel {
+  font-weight: 700;
+  color: #ea580c;
+  margin-bottom: 8px;
+  display: block;
+  font-size: 1.08rem;
+  letter-spacing: 0.2px;
+}
+
+.restaurantInfo {
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 14px 22px;
+  margin-top: 4px;
+  color: #7c2d12;
+  font-size: 1.07rem;
+  border: 1px dashed #fca5a5;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.iconStore, .iconLocation, .iconOwner {
+  font-size: 1.1rem;
+  margin-right: 4px;
+}
+
+.contentBlock {
+  margin-top: 10px;
+}
+
+.contentLabel {
+  font-weight: 700;
+  color: #be123c;
+  margin-bottom: 8px;
+  display: block;
+  font-size: 1.08rem;
+}
+
+.contentBox {
+  font-size: 1.15rem;
+  color: #334155;
+  background: #fff;
+  border-radius: 10px;
+  padding: 16px 22px;
+  margin-top: 4px;
+  white-space: pre-line;
+  border: 1.5px solid #a5c8fc;
+  box-shadow: 0 2px 8px #fca5a555;
+}
+
+.noAccess {
+  color: #ef4444;
+  font-weight: 700;
+  font-size: 1.2rem;
+  padding: 32px;
+  text-align: center;
+}
+
+.loading {
+  font-size: 1.08rem;
+  color: #64748b;
+  padding: 24px 0;
+  text-align: center;
+}
+
+.empty {
+  font-size: 1.08rem;
+  color: #64748b;
+  padding: 24px 0;
+  text-align: center;
+}

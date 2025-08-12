@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
+import { useRouter } from "next/router";
 import { RootState } from "@/store";
-import styles from "@/styles/RegisterRestaurants.module.css";
+import styles from "@/styles/CreateAndUpdateRestaurant.module.css";
 import { RestaurantCreate } from "@/types/restaurant";
-import { createRestaurant } from "@/services/service";
+import { createRestaurant } from "@/services/restaurantService";
 
 const CATEGORY_OPTIONS = [
   { value: "com", label: "Cơm" },
@@ -23,8 +24,16 @@ const CATEGORY_OPTIONS = [
   { value: "khac", label: "Khác" },
 ];
 
+const CITY_OPTIONS = [
+  "Hà Nội",
+  "Hồ Chí Minh",
+  "Đà Nẵng",
+  "Nha Trang",
+];
+
 export default function CreateRestaurantPage() {
   const accessToken = useSelector((state: RootState) => state.auth.access);
+  const router = useRouter();
   const [form, setForm] = useState<RestaurantCreate>({
     name: "",
     address: "",
@@ -33,6 +42,7 @@ export default function CreateRestaurantPage() {
     description: "",
     categories: [],
     images: [],
+    city: CITY_OPTIONS[0],
   });
   const [previewImages, setPreviewImages] = useState<string[]>([]);
   const [submitting, setSubmitting] = useState(false);
@@ -45,6 +55,10 @@ export default function CreateRestaurantPage() {
   const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selected = Array.from(e.target.selectedOptions).map((opt) => opt.value);
     setForm({ ...form, categories: selected });
+  };
+
+  const handleCityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setForm({ ...form, city: e.target.value });
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -74,10 +88,19 @@ export default function CreateRestaurantPage() {
   };
 
   return (
-    <div className={styles.container}>
-      <h1 className={styles.title}>Tạo nhà hàng và đăng ký</h1>
-      <form onSubmit={handleSubmit} style={{ maxWidth: 500 }}>
-        <div style={{ marginBottom: 16 }}>
+    <div className={styles.wrapper}>
+      <div className={styles.headerRow}>
+        <button
+          className={styles.backBtn}
+          onClick={() => router.push("/user/my-restaurants")}
+          title="Quay lại danh sách quán ăn"
+        >
+          ← Quay lại
+        </button>
+        <h1 className={styles.title}>Tạo nhà hàng và đăng ký</h1>
+      </div>
+      <form onSubmit={handleSubmit} className={styles.form}>
+        <div className={styles.formGroup}>
           <label>Tên nhà hàng *</label>
           <input
             name="name"
@@ -85,10 +108,9 @@ export default function CreateRestaurantPage() {
             onChange={handleChange}
             required
             className={styles.input}
-            style={{ width: "100%" }}
           />
         </div>
-        <div style={{ marginBottom: 16 }}>
+        <div className={styles.formGroup}>
           <label>Địa chỉ *</label>
           <input
             name="address"
@@ -96,10 +118,23 @@ export default function CreateRestaurantPage() {
             onChange={handleChange}
             required
             className={styles.input}
-            style={{ width: "100%" }}
           />
         </div>
-        <div style={{ marginBottom: 16 }}>
+        <div className={styles.formGroup}>
+          <label>Thành phố *</label>
+          <select
+            name="city"
+            value={form.city}
+            onChange={handleCityChange}
+            required
+            className={styles.input}
+          >
+            {CITY_OPTIONS.map((city) => (
+              <option key={city} value={city}>{city}</option>
+            ))}
+          </select>
+        </div>
+        <div className={styles.formGroup}>
           <label>Số điện thoại *</label>
           <input
             name="phone"
@@ -107,10 +142,9 @@ export default function CreateRestaurantPage() {
             onChange={handleChange}
             required
             className={styles.input}
-            style={{ width: "100%" }}
           />
         </div>
-        <div style={{ marginBottom: 16 }}>
+        <div className={styles.formGroup}>
           <label>Email *</label>
           <input
             name="email"
@@ -119,10 +153,9 @@ export default function CreateRestaurantPage() {
             onChange={handleChange}
             required
             className={styles.input}
-            style={{ width: "100%" }}
           />
         </div>
-        <div style={{ marginBottom: 16 }}>
+        <div className={styles.formGroup}>
           <label>Mô tả</label>
           <textarea
             name="description"
@@ -130,10 +163,9 @@ export default function CreateRestaurantPage() {
             onChange={handleChange}
             rows={3}
             className={styles.input}
-            style={{ width: "100%" }}
           />
         </div>
-        <div style={{ marginBottom: 16 }}>
+        <div className={styles.formGroup}>
           <label>Danh mục (giữ Ctrl để chọn nhiều)</label>
           <select
             name="categories"
@@ -141,7 +173,7 @@ export default function CreateRestaurantPage() {
             value={form.categories}
             onChange={handleCategoryChange}
             className={styles.input}
-            style={{ width: "100%", height: 90 }}
+            style={{ height: 90 }}
           >
             {CATEGORY_OPTIONS.map((cat) => (
               <option key={cat.value} value={cat.value}>
@@ -150,7 +182,7 @@ export default function CreateRestaurantPage() {
             ))}
           </select>
         </div>
-        <div style={{ marginBottom: 16 }}>
+        <div className={styles.formGroup}>
           <label>Ảnh nhà hàng</label>
           <input
             type="file"
@@ -159,13 +191,13 @@ export default function CreateRestaurantPage() {
             onChange={handleImageChange}
             className={styles.input}
           />
-          <div style={{ display: "flex", gap: 8, marginTop: 8, flexWrap: "wrap" }}>
+          <div className={styles.previewImages}>
             {previewImages.map((src, idx) => (
               <img
                 key={idx}
                 src={src}
                 alt={`preview-${idx}`}
-                style={{ width: 80, height: 80, objectFit: "cover", borderRadius: 8, border: "1px solid #eee" }}
+                className={styles.previewImg}
               />
             ))}
           </div>
@@ -174,16 +206,21 @@ export default function CreateRestaurantPage() {
           type="submit"
           className={styles.registerBtn}
           disabled={submitting}
-          style={{ marginTop: 16 }}
         >
           {submitting ? "Đang gửi..." : "Tạo nhà hàng và đăng ký"}
         </button>
         {message && (
-          <div style={{ marginTop: 16, color: message.includes("thành công") ? "#15803d" : "#b91c1c" }}>
+          <div
+            className={
+              message.includes("thành công")
+                ? styles.successMsg
+                : styles.errorMsg
+            }
+          >
             {message}
           </div>
         )}
       </form>
     </div>
-    );
+  );
 }

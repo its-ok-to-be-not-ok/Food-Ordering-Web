@@ -4,6 +4,7 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import authenticate
 from .models import User, Admin, RestaurantRegistration
+from restaurants.models import Restaurant
 from .serializers import (
     UserSerializer, RegisterSerializer, AdminSerializer,
     RestaurantRegistrationSerializer
@@ -80,6 +81,27 @@ class RestaurantRegistrationDetailView(generics.RetrieveDestroyAPIView):
         qs = RestaurantRegistration.objects.all()
         if self.request.user.role != 'admin':
             qs = qs.filter(user=self.request.user)
+
+class RestaurantRegistrationStatusUpdateView(APIView):
+    permission_classes = [permissions.IsAdminUser]
+
+    def patch(self, request, pk):
+        try:
+            registration = RestaurantRegistration.objects.get(pk=pk)
+        except RestaurantRegistration.DoesNotExist:
+            return Response({"error": "Không tìm thấy đăng ký."}, status=status.HTTP_404_NOT_FOUND)
+        status_val = request.data.get("status")
+        if status_val in ["approved", "rejected"]:
+            registration.status = status_val
+            registration.save()
+            serializer = RestaurantRegistrationSerializer(registration)
+            return Response(serializer.data)
+        return Response({"error": "Trạng thái không hợp lệ."}, status=status.HTTP_400_BAD_REQUEST)
+    
+class GetAllPendingRegistrationsView(generics.ListAPIView):
+    queryset = RestaurantRegistration.objects.filter(status="pending")
+    serializer_class = RestaurantRegistrationSerializer
+    permission_classes = [permissions.IsAdminUser]
 
 class AdminLoginView(APIView):
     permission_classes = [permissions.AllowAny]
@@ -174,5 +196,56 @@ class AdminAccountDetailView(generics.RetrieveUpdateDestroyAPIView):
     def destroy(self, request, *args, **kwargs):
         user = self.get_object()
         Admin.objects.filter(user=user).delete()
+        user.delete()
+        return Response({"success": True}, status=status.HTTP_204_NO_CONTENT)
+    
+class SearchUserByContactView(APIView):
+    permission_classes = [permissions.IsAdminUser]
+
+    def get(self, request):
+        contact = request.query_params.get("contact")
+        if not contact:
+            return Response({"error": "Thiếu thông tin tìm kiếm."}, status=status.HTTP_400_BAD_REQUEST)
+        user = User.objects.filter(
+            email__iexact=contact
+        ).first() or User.objects.filter(
+            phone__iexact=contact
+        ).first()
+        if not user:
+            return Response({"error": "Không tìm thấy user."}, status=status.HTTP_404_NOT_FOUND)
+        return Response(UserSerializer(user).data)
+
+class BanUserView(APIView):
+    permission_classes = [permissions.IsAdminUser]
+
+    def post(self, request, pk):
+        try:
+            user = User.objects.get(pk=pk)
+        except User.DoesNotExist:
+            return Response({"error": "Không tìm thấy user."}, status=status.HTTP_404_NOT_FOUND)
+        user.status = "banned"
+        user.save()
+        return Response({"success": True})
+
+class UnbanUserView(APIView):
+    permission_classes = [permissions.IsAdminUser]
+
+    def post(self, request, pk):
+        try:
+            user = User.objects.get(pk=pk)
+        except User.DoesNotExist:
+            return Response({"error": "Không tìm thấy user."}, status=status.HTTP_404_NOT_FOUND)
+        user.status = "active"
+        user.save()
+        return Response({"success": True})
+
+class DeleteUserView(APIView):
+    permission_classes = [permissions.IsAdminUser]
+
+    def delete(self, request, pk):
+        try:
+            user = User.objects.get(pk=pk)
+        except User.DoesNotExist:
+            return Response({"error": "Không tìm thấy user."}, status=status.HTTP_404_NOT_FOUND)
         user.delete()
         return Response({"success": True}, status=status.HTTP_204_NO_CONTENT)

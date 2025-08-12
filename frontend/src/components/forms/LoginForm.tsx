@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import styles from "./LoginForm.module.css";
 import { login as loginAction } from "@/store/slices/authSlice";
-import { login as loginService } from "@/services/service";
+import { login as loginService } from "@/services/authService";
 
 const LoginForm = () => {
   const dispatch = useDispatch();

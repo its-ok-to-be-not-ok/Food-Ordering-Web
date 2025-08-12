@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { register } from "@/services/service";
+import { register } from "@/services/authService"; // import the register function from authService
 import { useRouter } from "next/router";
 import Link from "next/link";
 import styles from "./RegisterForm.module.css"; // import file CSS module

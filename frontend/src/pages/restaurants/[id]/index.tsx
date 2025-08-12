@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import styles from "@/styles/RestaurantDetail.module.css";
-import { getRestaurantDetail } from "@/services/service";
+import { getRestaurantDetail } from "@/services/restaurantService";
 import { useRouter } from "next/router";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/store";
