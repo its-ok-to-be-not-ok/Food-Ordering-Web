@@ -1,0 +1,7 @@
+﻿test_create_review_validations 
+(reviews.tests.test_views.ReviewAPITests.test_create_review_validations) ... ok
+test_list_reviews_filters (reviews.tests.test_views.ReviewAPITests.test_list_reviews_filters) ... ok
+test_user_reviews_requires_auth 
+(reviews.tests.test_views.ReviewAPITests.test_user_reviews_requires_auth) ... ok
+Ran 3 tests in 6.291s
+OK

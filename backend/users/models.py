@@ -7,19 +7,13 @@ class User(AbstractUser):
     phone = models.CharField(max_length=20, blank=True, null=True)
     address = models.CharField(max_length=255, blank=True, null=True)
     
-    ROLE_CHOICES = [
-        ('customer', 'Khách hàng'),
-        ('restaurant_owner', 'Chủ nhà hàng'),
-        ('admin', 'Quản trị viên'),
-    ]
-    
     STATUS_CHOICES = [
         ('active', 'Hoạt động'),
         ('inactive', 'Không hoạt động'),
         ('banned', 'Bị cấm'),
     ]
     
-    role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='customer')
+    
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='active')
 
     USERNAME_FIELD = 'email'

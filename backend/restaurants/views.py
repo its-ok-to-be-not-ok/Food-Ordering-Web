@@ -153,20 +153,12 @@ class UploadRestaurantImagesView(APIView):
 class SearchRestaurantsView(APIView):
     def get(self, request):
         query = request.query_params.get('q', '').strip()
-        restaurants = Restaurant.objects.filter(
-            status='active'
-        ).filter(
-            # Tìm theo email hoặc số điện thoại hoặc tên
-            email__icontains=query
-        ) | Restaurant.objects.filter(
-            status='active',
-            phone__icontains=query
-        ) | Restaurant.objects.filter(
-            status='active',
-            name__icontains=query
-        )
-        # Loại bỏ trùng lặp (nếu có)
-        restaurants = restaurants.distinct()
+        approved_ids = RestaurantRegistration.objects.filter(status="approved").values_list("restaurant_id", flat=True)
+        restaurants = (
+            Restaurant.objects.filter(status='active', id__in=approved_ids, email__icontains=query)
+            | Restaurant.objects.filter(status='active', id__in=approved_ids, phone__icontains=query)
+            | Restaurant.objects.filter(status='active', id__in=approved_ids, name__icontains=query)
+        ).distinct()
         serializer = RestaurantSerializer(restaurants, many=True)
         return Response(serializer.data)
 

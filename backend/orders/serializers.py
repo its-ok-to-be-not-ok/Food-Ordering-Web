@@ -1,3 +1,4 @@
+from decimal import Decimal
 from rest_framework import serializers
 from .models import Order, OrderItem, Delivery, Payment
 from restaurants.models import MenuItem, Restaurant
@@ -50,8 +51,8 @@ class OrderCreateSerializer(serializers.Serializer):
             menu_item = get_object_or_404(MenuItem, id=item_data['menu_item_id'])
             if menu_item.menu.restaurant.id != restaurant.id:
                 raise serializers.ValidationError("Tất cả món phải thuộc cùng 1 nhà hàng")
-            
-            price = menu_item.price - menu_item.discount
+
+            price = menu_item.price * (Decimal('1') - Decimal(menu_item.discount) / Decimal('100'))
             item_data['price'] = price
             total_amount += price * item_data['quantity']
             

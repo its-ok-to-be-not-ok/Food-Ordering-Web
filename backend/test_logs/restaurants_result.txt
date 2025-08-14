@@ -1,0 +1,20 @@
+﻿test_admin_ban_unban (restaurants.tests.test_views.RestaurantAPITests.test_admin_ban_unban) ... ok
+test_list_and_create_restaurant 
+(restaurants.tests.test_views.RestaurantAPITests.test_list_and_create_restaurant) ... 
+E:\FOW\Food-Ordering-Web\venv\Lib\site-packages\rest_framework\pagination.py:207: 
+UnorderedObjectListWarning: Pagination may yield inconsistent results with an unordered object_list: 
+<class 'restaurants.models.Restaurant'> QuerySet.
+ok
+test_menu_crud (restaurants.tests.test_views.RestaurantAPITests.test_menu_crud) ... ok
+test_menu_items_list_create 
+(restaurants.tests.test_views.RestaurantAPITests.test_menu_items_list_create) ... 
+E:\FOW\Food-Ordering-Web\venv\Lib\site-packages\rest_framework\pagination.py:207: 
+UnorderedObjectListWarning: Pagination may yield inconsistent results with an unordered object_list: 
+<class 'restaurants.models.MenuItem'> QuerySet.
+ok
+test_search_restaurants (restaurants.tests.test_views.RestaurantAPITests.test_search_restaurants) ... 
+ok
+test_toggle_status_and_delete 
+(restaurants.tests.test_views.RestaurantAPITests.test_toggle_status_and_delete) ... ok
+Ran 6 tests in 24.828s
+OK

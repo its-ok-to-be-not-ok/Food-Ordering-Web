@@ -3,8 +3,22 @@ from .models import Restaurant, Menu, MenuItem, RestaurantStat, MenuItemStat
 from users.serializers import UserSerializer
 from django.utils import timezone
 import bleach
+from decimal import Decimal
 
 class MenuItemSerializer(serializers.ModelSerializer):
+    discounted_price = serializers.SerializerMethodField(read_only=True)
+
+    def get_discounted_price(self, obj):
+        if not obj.discount or obj.discount <= 0:
+            return obj.price
+        discount = obj.discount
+        if discount > 100:
+            discount = 100
+        if discount < 0:
+            discount = 0
+        # Sửa dòng này:
+        return obj.price * (Decimal('1') - Decimal(discount) / Decimal('100'))
+
     def validate_name(self, value):
         return bleach.clean(value, tags=[], strip=True)
 
@@ -16,7 +30,10 @@ class MenuItemSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = MenuItem
-        fields = ['id', 'name', 'description', 'price', 'image', 'status', 'category', 'discount']
+        fields = [
+            'id', 'name', 'description', 'price', 'image', 'status',
+            'category', 'discount', 'discounted_price'
+        ]
 
 class MenuSerializer(serializers.ModelSerializer):
     items = MenuItemSerializer(many=True, read_only=True)

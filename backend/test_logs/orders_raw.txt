@@ -1,0 +1,70 @@
+﻿..\venv\Scripts\python.exe : Creating test database for alias 'default' ('test_food_ordering')...
+At line:1 char:11
++ $orders = ..\venv\Scripts\python.exe manage.py test orders -v 2 2>&1; ...
++           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Creating test d...d_ordering')...:String) [], RemoteExce 
+   ption
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+
+Found 5 test(s).
+Operations to perform:
+  Synchronize unmigrated apps: corsheaders, messages, rest_framework, staticfiles
+  Apply all migrations: admin, auth, contenttypes, faults, orders, restaurants, reviews, sessions, users
+Synchronizing apps without migrations:
+  Creating tables...
+    Running deferred SQL...
+Running migrations:
+  Applying contenttypes.0001_initial... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0001_initial... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying auth.0007_alter_validators_add_error_messages... OK
+  Applying auth.0008_alter_user_username_max_length... OK
+  Applying auth.0009_alter_user_last_name_max_length... OK
+  Applying auth.0010_alter_group_name_max_length... OK
+  Applying auth.0011_update_proxy_permissions... OK
+  Applying auth.0012_alter_user_first_name_max_length... OK
+  Applying users.0001_initial... OK
+  Applying admin.0001_initial... OK
+  Applying admin.0002_logentry_remove_auto_add... OK
+  Applying admin.0003_logentry_add_action_flag_choices... OK
+  Applying restaurants.0001_initial... OK
+  Applying restaurants.0002_initial... OK
+  Applying restaurants.0003_restaurant_categories... OK
+  Applying restaurants.0004_restaurant_city... OK
+  Applying faults.0001_initial... OK
+  Applying restaurants.0005_restaurant_images... OK
+  Applying orders.0001_initial... OK
+  Applying orders.0002_delivery_address_alter_delivery_estimated_time_and_more... OK
+  Applying reviews.0001_initial... OK
+  Applying reviews.0002_initial... OK
+  Applying reviews.0003_review_images... OK
+  Applying reviews.0004_remove_review_images... OK
+  Applying sessions.0001_initial... OK
+  Applying users.0002_remove_restaurantregistration_restaurant_info_and_more... OK
+test_cancel_order_rules (orders.tests.test_views.OrderAPITests.test_cancel_order_rules) ... ok
+test_create_order_items_must_belong_to_same_restaurant 
+(orders.tests.test_views.OrderAPITests.test_create_order_items_must_belong_to_same_restaurant) ... ok
+test_create_order_success (orders.tests.test_views.OrderAPITests.test_create_order_success) ... ok
+test_order_list_by_role (orders.tests.test_views.OrderAPITests.test_order_list_by_role) ... 
+E:\FOW\Food-Ordering-Web\venv\Lib\site-packages\rest_framework\pagination.py:207: 
+UnorderedObjectListWarning: Pagination may yield inconsistent results with an unordered object_list: 
+<class 'orders.models.Order'> QuerySet.
+  paginator = self.django_paginator_class(queryset, page_size)
+ok
+test_update_status_permissions_and_validation 
+(orders.tests.test_views.OrderAPITests.test_update_status_permissions_and_validation) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 22.529s
+
+OK
+Destroying test database for alias 'default' ('test_food_ordering')...
+
+  Applying users.0003_alter_admin_permissions... OK
+System check identified no issues (0 silenced).

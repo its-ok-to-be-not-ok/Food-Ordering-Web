@@ -1,0 +1,13 @@
+﻿test_cancel_order_rules (orders.tests.test_views.OrderAPITests.test_cancel_order_rules) ... ok
+test_create_order_items_must_belong_to_same_restaurant 
+(orders.tests.test_views.OrderAPITests.test_create_order_items_must_belong_to_same_restaurant) ... ok
+test_create_order_success (orders.tests.test_views.OrderAPITests.test_create_order_success) ... ok
+test_order_list_by_role (orders.tests.test_views.OrderAPITests.test_order_list_by_role) ... 
+E:\FOW\Food-Ordering-Web\venv\Lib\site-packages\rest_framework\pagination.py:207: 
+UnorderedObjectListWarning: Pagination may yield inconsistent results with an unordered object_list: 
+<class 'orders.models.Order'> QuerySet.
+ok
+test_update_status_permissions_and_validation 
+(orders.tests.test_views.OrderAPITests.test_update_status_permissions_and_validation) ... ok
+Ran 5 tests in 22.529s
+OK
