@@ -8,7 +8,7 @@ from django.shortcuts import get_object_or_404
 class DeliverySerializer(serializers.ModelSerializer):
     class Meta:
         model = Delivery
-        fields = ['id', 'shipper_info', 'delivery_status', 'estimated_time']
+        fields = ['id', 'shipper_info', 'delivery_status', 'estimated_time', 'address']
 
 class PaymentSerializer(serializers.ModelSerializer):
     class Meta:
@@ -34,12 +34,13 @@ class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
         fields = ['id', 'user', 'restaurant', 'order_date', 'status', 'total_amount', 
-                 'payment_status', 'items', 'delivery', 'payment']
+                 'order_status', 'items', 'delivery', 'payment']
 
 class OrderCreateSerializer(serializers.Serializer):
     restaurant_id = serializers.IntegerField()
-    payment_method = serializers.ChoiceField(choices=['cash', 'card', 'momo', 'zalopay', 'bank_transfer'])
+    payment_method = serializers.ChoiceField(choices=['cash', 'paypal'])
     items = OrderItemSerializer(many=True)
+    address = serializers.CharField(required=False, allow_blank=True)  # Optional address field
 
     def validate(self, data):
         restaurant = get_object_or_404(Restaurant, id=data['restaurant_id'])
@@ -61,7 +62,8 @@ class OrderCreateSerializer(serializers.Serializer):
         user = self.context['request'].user
         items_data = validated_data.pop('items')
         payment_method = validated_data.pop('payment_method')
-        
+        address = validated_data.pop('address', '')
+
         order = Order.objects.create(
             user=user,
             restaurant_id=validated_data['restaurant_id'],
@@ -73,12 +75,21 @@ class OrderCreateSerializer(serializers.Serializer):
                 order=order,
                 **item_data
             )
-        
-        Payment.objects.create(
-            order=order,
+
+        payment = Payment.objects.create(
             payment_method=payment_method,
             amount=validated_data['total_amount'],
             transaction_code=f"TXN_{order.id}_{order.order_date.strftime('%Y%m%d%H%M%S')}"
         )
+        order.payment = payment
         
+
+        delivery = Delivery.objects.create(
+            shipper_info='Thông tin shipper chưa cập nhật',
+            delivery_status='assigned',
+            estimated_time=None,
+            address=address or 'Địa chỉ chưa cập nhật'
+        )
+        order.delivery = delivery
+        order.save()
         return order

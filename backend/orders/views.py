@@ -83,3 +83,16 @@ class RestaurantOrdersView(generics.ListAPIView):
             restaurant_id=restaurant_id,
             restaurant__owner=self.request.user
         ).order_by('-order_date')
+
+class CancelOrderView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def delete(self, request, order_id):
+        try:
+            order = Order.objects.get(pk=order_id, user=request.user)
+        except Order.DoesNotExist:
+            return Response({"detail": "Không tìm thấy đơn hàng."}, status=status.HTTP_404_NOT_FOUND)
+        if order.status != "pending":
+            return Response({"detail": "Chỉ có thể huỷ đơn hàng khi đang chờ xác nhận."}, status=status.HTTP_400_BAD_REQUEST)
+        order.delete()
+        return Response({"detail": "Đã huỷ đơn hàng."}, status=status.HTTP_204_NO_CONTENT)

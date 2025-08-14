@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import (
     OrderListView, OrderDetailView, CreateOrderView,
-    UpdateOrderStatusView, OrderHistoryView, RestaurantOrdersView
+    UpdateOrderStatusView, OrderHistoryView, RestaurantOrdersView, CancelOrderView
 )
 
 urlpatterns = [
@@ -11,4 +11,5 @@ urlpatterns = [
     path('<int:order_id>/status/', UpdateOrderStatusView.as_view(), name='update-order-status'),
     path('history/', OrderHistoryView.as_view(), name='order-history'),
     path('restaurant/<int:restaurant_id>/', RestaurantOrdersView.as_view(), name='restaurant-orders'),
+    path('<int:order_id>/cancel/', CancelOrderView.as_view(), name='cancel-order'),
 ]
