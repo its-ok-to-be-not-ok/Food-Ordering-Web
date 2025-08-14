@@ -1,0 +1,129 @@
+.reviewModalOverlay {
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.25); 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.reviewModal {
+  background: #fff;
+  border-radius: 14px;
+  padding: 32px 28px 22px 28px;
+  min-width: 500px;
+  max-width: 100vw;
+  box-shadow: 0 8px 32px rgba(37,99,235,0.18), 0 2px 8px rgba(0,0,0,0.10);
+  animation: fadeInModal 0.18s;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+@keyframes fadeInModal {
+  from { opacity: 0; transform: translateY(30px);}
+  to { opacity: 1; transform: translateY(0);}
+}
+.reviewTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: #2563eb;
+  text-align: center;
+}
+.reviewRestaurant {
+  color: #f59e42;
+  font-weight: 700;
+}
+.ratingRow {
+  font-size: 1.25rem;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.star, .starActive {
+  cursor: pointer;
+  font-size: 1.7rem;
+  color: #e5e7eb;
+  transition: color 0.18s;
+  user-select: none;
+}
+.starActive {
+  color: #facc15;
+  text-shadow: 0 1px 4px #fde68a;
+}
+.ratingLabel {
+  margin-left: 10px;
+  font-size: 1.1rem;
+  color: #6366f1;
+  font-weight: 500;
+  min-width: 80px;
+  display: inline-block;
+}
+.reviewTextarea {
+  width: 95%;
+  min-height: 80px;
+  border-radius: 7px;
+  border: 1.5px solid #d1d5db;
+  padding: 10px 12px;
+  font-size: 1rem;
+  margin-bottom: 0;
+  margin-top: 8px;
+  resize: vertical;
+  background: #f8fafc;
+  transition: border 0.18s;
+}
+.reviewTextarea:focus {
+  border: 1.5px solid #6366f1;
+  outline: none;
+  background: #fff;
+}
+.reviewCharCount {
+  text-align: right;
+  font-size: 0.95rem;
+  color: #64748b;
+  margin-top: 2px;
+  margin-bottom: 4px;
+}
+.reviewError {
+  color: #dc2626;
+  font-size: 1rem;
+  margin-bottom: 4px;
+  margin-top: 2px;
+  text-align: left;
+}
+.detailBtn {
+  background: #6366f1;
+  color: #fff;
+  border: none;
+  border-radius: 7px;
+  padding: 8px 18px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.18s;
+}
+.detailBtn:hover {
+  background: #4338ca;
+}
+.cancelBtn {
+  background: #f87171;
+  color: #fff;
+  border: none;
+  border-radius: 7px;
+  padding: 8px 18px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.18s;
+}
+.cancelBtn:hover {
+  background: #dc2626;
+}

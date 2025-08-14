@@ -1,0 +1,141 @@
+.container {
+  max-width: 900px;
+  margin: 36px auto;
+  padding: 32px 28px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 18px rgba(0,0,0,0.08);
+}
+.heading {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 22px;
+  color: #1a202c;
+}
+.orderList {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+.orderCard {
+  border-radius: 14px;
+  background: #f3f4f6;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.04);
+  padding: 22px 22px 16px 22px;
+  border-left: 5px solid #6366f1;
+  position: relative;
+}
+.orderHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.customerInfo {
+  font-size: 1.08rem;
+  color: #2563eb;
+  font-weight: 600;
+}
+.orderMeta {
+  text-align: right;
+  min-width: 180px;
+  font-size: 1rem;
+  color: #374151;
+}
+.statusRow {
+  margin: 12px 0 8px 0;
+  font-size: 1.05rem;
+}
+.status {
+  color: #6366f1;
+  font-weight: 600;
+  margin-left: 4px;
+}
+.actionBtns {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+.actionBtn {
+  background: #6366f1;
+  color: #fff;
+  border: none;
+  border-radius: 7px;
+  padding: 8px 18px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.18s;
+}
+.actionBtn:hover {
+  background: #4338ca;
+}
+.rejectBtn {
+  background: #f87171;
+}
+.rejectBtn:hover {
+  background: #dc2626;
+}
+.itemsTable {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  margin-top: 10px;
+}
+.itemsTable th, .itemsTable td {
+  padding: 7px 10px;
+  text-align: left;
+}
+.itemsTable th {
+  background: #2563eb;
+  color: #fff;
+  font-weight: 500;
+  font-size: 1rem;
+}
+.itemsTable tr:nth-child(even) td {
+  background: #f1f5f9;
+}
+.itemsTable td {
+  font-size: 1rem;
+  color: #222;
+}
+.menuItemInfo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.menuItemImage {
+  width: 38px;
+  height: 38px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid #e5e7eb;
+  background: #f3f4f6;
+}
+
+.filterBtn {
+  background: #3569d0;
+  color: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background 0.18s;
+}
+.filterBtn:hover {
+  background: #e5e7eb;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  padding: 8px 12px;
+}
+
+.activeFilterBtn {
+  background: #3528c9;
+  color: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background 0.18s;
+}

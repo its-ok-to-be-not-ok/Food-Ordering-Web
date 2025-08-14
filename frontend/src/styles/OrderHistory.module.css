@@ -1,0 +1,270 @@
+.container {
+  max-width: 1200px;
+  margin: 36px auto;
+  padding: 32px 28px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 18px rgba(0,0,0,0.08);
+}
+
+.heading {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 22px;
+  color: #1a202c;
+}
+
+.orderList {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.orderCard {
+  border-radius: 14px;
+  background: #f3f4f6;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.04);
+  padding: 22px 22px 16px 22px;
+  transition: box-shadow 0.18s;
+  border-left: 5px solid #6366f1;
+  position: relative;
+}
+
+.orderHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.restaurantInfo {
+  flex: 1;
+}
+
+.restaurantName {
+  font-size: 1.18rem;
+  font-weight: 700;
+  color: #2563eb;
+  margin-bottom: 2px;
+}
+
+.restaurantDetail {
+  color: #444;
+  font-size: 1rem;
+  margin-bottom: 2px;
+}
+
+.orderMeta {
+  text-align: right;
+  min-width: 180px;
+  font-size: 1rem;
+  color: #374151;
+}
+
+.progressBar {
+  display: flex;
+  align-items: center;
+  margin: 18px 0 10px 0;
+  gap: 0;
+}
+
+.progressStep {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.progressCircle,
+.progressCircleActive {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #e5e7eb;
+  color: #2563eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 1.1rem;
+  z-index: 2;
+  border: 2px solid #6366f1;
+  transition: background 0.2s;
+}
+.progressCircleActive {
+  background: #6366f1;
+  color: #fff;
+}
+
+.progressLabel,
+.progressLabelActive {
+  font-size: 0.97rem;
+  margin-left: 6px;
+  margin-right: 10px;
+  color: #64748b;
+  font-weight: 500;
+}
+.progressLabelActive {
+  color: #2563eb;
+}
+
+.progressLine,
+.progressLineActive {
+  width: 38px;
+  height: 4px;
+  background: #e5e7eb;
+  border-radius: 2px;
+  margin-left: -8px;
+  margin-right: -8px;
+  z-index: 1;
+}
+.progressLineActive {
+  background: #6366f1;
+}
+
+.orderStatusRow {
+  margin-bottom: 10px;
+  font-size: 1.05rem;
+}
+
+.orderStatus {
+  color: #6366f1;
+  font-weight: 600;
+  margin-left: 4px;
+}
+
+.detailBtn {
+  background: #6366f1;
+  color: #fff;
+  border: none;
+  border-radius: 7px;
+  padding: 8px 18px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  margin-bottom: 0;
+  margin-top: 8px;
+  transition: background 0.18s;
+}
+.detailBtn:hover {
+  background: #4338ca;
+}
+
+.cancelBtn {
+  background: #f87171;
+  color: #fff;
+  border: none;
+  border-radius: 7px;
+  padding: 8px 18px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: background 0.18s;
+}
+
+.actionBtn {
+  background: #19a424;
+  color: #fff;
+  border: none;
+  border-radius: 7px;
+  padding: 8px 18px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  margin-bottom: 0;
+  margin-top: 8px;
+  transition: background 0.18s;
+}
+
+.orderDetail {
+  margin-top: 14px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(37,99,235,0.04);
+  padding: 12px 10px 10px 10px;
+}
+
+.itemsTable {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+}
+.itemsTable th, .itemsTable td {
+  padding: 7px 10px;
+  text-align: left;
+}
+.itemsTable th {
+  background: #2563eb;
+  color: #fff;
+  font-weight: 500;
+  font-size: 1rem;
+}
+.itemsTable tr:nth-child(even) td {
+  background: #f1f5f9;
+}
+.itemsTable td {
+  font-size: 1rem;
+  color: #222;
+}
+
+.menuItemInfo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.menuItemImage {
+  width: 38px;
+  height: 38px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid #e5e7eb;
+  background: #f3f4f6;
+}
+
+.filterBtn {
+  background: #f3f4f6;
+  color: #2563eb;
+  border: 1.5px solid #d1d5db;
+  border-radius: 7px;
+  padding: 7px 18px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s;
+}
+.filterBtn:hover {
+  background: #e0e7ff;
+}
+.activeFilterBtn {
+  background: #6366f1;
+  color: #fff;
+  border: 1.5px solid #6366f1;
+  border-radius: 7px;
+}
+
+.cancelBtn:hover {
+  background: #dc2626;
+}
+
+.orderStatusRejected {
+  color: #dc2626;
+  font-weight: 700;
+  font-size: 1.08rem;
+}
+
+.backBtn {
+  background: #f1f5f9;
+  color: #2563eb;
+  border: none;
+  border-radius: 7px;
+  padding: 8px 18px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  margin-bottom: 10px;
+  transition: background 0.18s;
+}
+.backBtn:hover {
+  background: #dbeafe;
+}
