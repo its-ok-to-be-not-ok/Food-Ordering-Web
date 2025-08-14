@@ -66,7 +66,7 @@ class RestaurantRegistrationListView(generics.ListAPIView):
 
     def get_queryset(self):
         qs = RestaurantRegistration.objects.all()
-        if self.request.user.role != 'admin':
+        if not self.request.user.is_superuser:
             qs = qs.filter(user=self.request.user)
         status_param = self.request.query_params.get("status")
         if status_param:
@@ -79,8 +79,17 @@ class RestaurantRegistrationDetailView(generics.RetrieveDestroyAPIView):
 
     def get_queryset(self):
         qs = RestaurantRegistration.objects.all()
-        if self.request.user.role != 'admin':
+        if not self.request.user.is_superuser:
             qs = qs.filter(user=self.request.user)
+        return qs
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        # Chỉ cho phép user sở hữu hoặc admin xoá
+        if not (request.user.is_superuser or instance.user == request.user):
+            return Response({"error": "Bạn không có quyền xoá đăng ký này."}, status=status.HTTP_403_FORBIDDEN)
+        self.perform_destroy(instance)
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 class RestaurantRegistrationStatusUpdateView(APIView):
     permission_classes = [permissions.IsAdminUser]

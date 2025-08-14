@@ -11,10 +11,8 @@ class OrderListView(generics.ListAPIView):
 
     def get_queryset(self):
         user = self.request.user
-        if user.role == 'admin':
+        if user.is_superuser:
             return Order.objects.all()
-        elif user.role == 'restaurant_owner':
-            return Order.objects.filter(restaurant__owner=user)
         else:
             return Order.objects.filter(user=user)
 
@@ -24,10 +22,8 @@ class OrderDetailView(generics.RetrieveAPIView):
 
     def get_queryset(self):
         user = self.request.user
-        if user.role == 'admin':
+        if user.is_superuser:
             return Order.objects.all()
-        elif user.role == 'restaurant_owner':
-            return Order.objects.filter(restaurant__owner=user)
         else:
             return Order.objects.filter(user=user)
 
@@ -49,18 +45,19 @@ class UpdateOrderStatusView(APIView):
 
     def patch(self, request, order_id):
         order = get_object_or_404(Order, id=order_id)
+        user = request.user
+        if not (
+            user.is_superuser or
+            order.restaurant.owner == user or
+            order.user == user
+        ): return Response({'error': 'Bạn không có quyền cập nhật đơn này.'}, status=status.HTTP_403_FORBIDDEN)
         
-        if request.user.role == 'restaurant_owner' and order.restaurant.owner != request.user:
-            return Response({'error': 'Permission denied'}, status=status.HTTP_403_FORBIDDEN)
-        elif request.user.role == 'customer' and order.user != request.user:
-            return Response({'error': 'Permission denied'}, status=status.HTTP_403_FORBIDDEN)
-
         new_status = request.data.get('status')
+
         if new_status:
             order.status = new_status
             order.save()
             return Response({'message': 'Order status updated successfully'})
-        
         return Response({'error': 'Status is required'}, status=status.HTTP_400_BAD_REQUEST)
 
 class OrderHistoryView(generics.ListAPIView):
@@ -75,9 +72,6 @@ class RestaurantOrdersView(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        if self.request.user.role != 'restaurant_owner':
-            return Order.objects.none()
-        
         restaurant_id = self.kwargs.get('restaurant_id')
         return Order.objects.filter(
             restaurant_id=restaurant_id,
