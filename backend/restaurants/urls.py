@@ -3,7 +3,7 @@ from .views import (
     RestaurantListView, RestaurantDetailView, RestaurantMenuView,
     MenuItemListView, MenuItemDetailView, RestaurantStatsView,
     PopularRestaurantsView, SearchRestaurantsView, UserRestaurantListView, RestaurantCreateView,
-    RestaurantStatusToggleView, RestaurantDeleteView, RestaurantBanView, RestaurantUnbanView
+    RestaurantStatusToggleView, RestaurantDeleteView, RestaurantBanView, RestaurantUnbanView, UploadRestaurantImagesView
 )
 
 urlpatterns = [
@@ -22,4 +22,5 @@ urlpatterns = [
     path('<int:restaurant_id>/delete/', RestaurantDeleteView.as_view(), name='restaurant-delete'),
     path('<int:restaurant_id>/ban/', RestaurantBanView.as_view(), name='restaurant-ban'),
     path('<int:restaurant_id>/unban/', RestaurantUnbanView.as_view(), name='restaurant-unban'),
+    path('upload-restaurant-images/', UploadRestaurantImagesView.as_view(), name='upload-restaurant-images'),
 ]

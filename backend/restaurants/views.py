@@ -2,6 +2,10 @@ from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.shortcuts import get_object_or_404
+from django.conf import settings
+from django.core.files.storage import default_storage
+from django.utils import timezone
+import os
 from .models import Restaurant, Menu, MenuItem, RestaurantStat, MenuItemStat
 from users.models import RestaurantRegistration
 from .serializers import (
@@ -120,15 +124,31 @@ class PopularRestaurantsView(APIView):
         serializer = RestaurantSerializer(restaurants, many=True)
         return Response(serializer.data)
 
-# class SearchRestaurantsView(APIView):
-#     def get(self, request):
-#         query = request.query_params.get('q', '')
-#         restaurants = Restaurant.objects.filter(
-#             name__icontains=query,
-#             status='active'
-#         )
-#         serializer = RestaurantSerializer(restaurants, many=True)
-#         return Response(serializer.data)
+import os
+
+class UploadRestaurantImagesView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request):
+        files = request.FILES.getlist("images")
+        image_names = []
+        restaurant_id = request.data.get("restaurant_id")
+        # if not restaurant_id:
+        #     restaurant = Restaurant.objects.filter(owner=request.user).first()
+        #     restaurant_id = restaurant.id if restaurant else "unknown"
+        for file in files:
+            ext = file.name.split('.')[-1]
+            timestamp = timezone.now().strftime("%Y%m%d%H%M%S%f")
+            filename = f"{restaurant_id}_{timestamp}.{ext}"
+            save_dir = os.path.join(settings.MEDIA_ROOT, "restaurants")
+            os.makedirs(save_dir, exist_ok=True)
+            save_path = os.path.join("restaurants", filename)
+            full_path = os.path.join(settings.MEDIA_ROOT, save_path)
+            with open(full_path, "wb+") as destination:
+                for chunk in file.chunks():
+                    destination.write(chunk)
+            image_names.append(save_path)
+        return Response({"images": image_names})
     
 class SearchRestaurantsView(APIView):
     def get(self, request):

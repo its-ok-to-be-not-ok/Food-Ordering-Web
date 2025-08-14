@@ -2,14 +2,30 @@ from rest_framework import serializers
 from .models import Restaurant, Menu, MenuItem, RestaurantStat, MenuItemStat
 from users.serializers import UserSerializer
 from django.utils import timezone
+import bleach
 
 class MenuItemSerializer(serializers.ModelSerializer):
+    def validate_name(self, value):
+        return bleach.clean(value, tags=[], strip=True)
+
+    def validate_description(self, value):
+        return bleach.clean(value, tags=[], strip=True)
+
+    def validate_image(self, value):
+        return bleach.clean(value, tags=[], strip=True)
+
     class Meta:
         model = MenuItem
         fields = ['id', 'name', 'description', 'price', 'image', 'status', 'category', 'discount']
 
 class MenuSerializer(serializers.ModelSerializer):
     items = MenuItemSerializer(many=True, read_only=True)
+
+    def validate_title(self, value):
+        return bleach.clean(value, tags=[], strip=True)
+
+    def validate_description(self, value):
+        return bleach.clean(value, tags=[], strip=True)
     
     class Meta:
         model = Menu
@@ -27,14 +43,39 @@ class RestaurantSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Restaurant
-        fields = ['id', 'owner', 'name', 'city', 'address', 'phone', 'email', 'description', 
-                 'status', 'rating', 'categories', 'registered_date', 'menus']
+        fields = [
+            'id', 'owner', 'name', 'city', 'address', 'phone', 'email', 'description',
+            'status', 'rating', 'categories', 'images', 'registered_date', 'menus'
+        ]
         read_only_fields = ['id', 'rating', 'registered_date']
 
 class RestaurantCreateSerializer(serializers.ModelSerializer):
+    def validate_name(self, value):
+        return bleach.clean(value, tags=[], strip=True)
+
+    def validate_address(self, value):
+        return bleach.clean(value, tags=[], strip=True)
+
+    def validate_phone(self, value):
+        return bleach.clean(value, tags=[], strip=True)
+
+    def validate_email(self, value):
+        return bleach.clean(value, tags=[], strip=True)
+
+    def validate_description(self, value):
+        return bleach.clean(value, tags=[], strip=True)
+
+    def validate_images(self, value):
+        cleaned_images = []
+        for img in value:
+            cleaned_images.append(bleach.clean(img, tags=[], strip=True))
+        return cleaned_images
+
     class Meta:
         model = Restaurant
-        fields = ['name', 'address', 'phone', 'email', 'description']
+        fields = [
+            'name', 'address', 'phone', 'email', 'description', 'city', 'categories', 'images'
+        ]
 
 class RestaurantStatSerializer(serializers.ModelSerializer):
     restaurant = RestaurantSerializer(read_only=True)
