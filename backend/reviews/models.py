@@ -14,10 +14,7 @@ class Review(models.Model):
     review_date = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        unique_together = [
-            ['user', 'restaurant'],
-            ['user', 'menu_item']
-        ]
+        pass
 
     def __str__(self):
         if self.restaurant:
